@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "google" {
-    # credentials = file(var.gcp_service_account_key_file)
+    credentials = var.gcp_service_account_key
 
     project = var.gcp_pid
     region = var.gcp_region
@@ -24,7 +24,7 @@ provider "google" {
     
 }
 provider "google-beta" {
-    # credentials = file(var.gcp_service_account_key_file)
+    credentials = var.gcp_service_account_key
 
     project = var.gcp_pid
     region = var.gcp_region

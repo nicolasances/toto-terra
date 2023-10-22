@@ -12,8 +12,8 @@ variable "gcp_zone" {
     type = string
     default = "europe-west1-c"
 }
-variable "gcp_service_account_key_file" {
-    description = "Terraform Service Account key file"
+variable "gcp_service_account_key" {
+    description = "Terraform Service Account key"
     type = string
 }
 # ---------------------------------------------------------
