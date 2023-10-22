@@ -15,3 +15,4 @@ The Service Account should have these permissions:
 The following APIs need to be active, for Terraform to be able to integrate with GCP: 
  * Identity and Access Management (IAM) API 
  * Cloud Resource Manager API 
+ * Google Cloud Firestore API 
