@@ -15,3 +15,8 @@ resource "google_project_iam_member" "toto-ms-expenses-role-firestore" {
     role = "roles/datastore.owner"
     member = format("serviceAccount:%s", google_service_account.toto-ms-expenses-service-account.email)
 }
+resource "google_project_iam_member" "toto-ms-expenses-role-gcs" {
+    project = var.gcp_pid
+    role = "roles/storage.admin"
+    member = format("serviceAccount:%s", google_service_account.toto-ms-expenses-service-account.email)
+}
