@@ -33,6 +33,10 @@ resource "google_storage_bucket" "backup-bucket" {
 
 # ---------------------------------------------------------------
 # Github environment secrets 
+resource "github_repository_environment" "toto-ms-expenses-github-environment" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+}
 resource "github_actions_environment_secret" "toto_backup_bucket_envsecret" {
     repository = "toto-ms-expenses"
     environment = var.gcp_pid
