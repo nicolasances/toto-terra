@@ -37,5 +37,5 @@ resource "github_actions_environment_secret" "toto_backup_bucket_envsecret" {
     repository = "toto-ms-expenses"
     environment = var.gcp_pid
     secret_name = "backup-bucket"
-    plaintext_value   = github_actions_environment_secret.toto_backup_bucket_envsecret.name
+    plaintext_value   = google_storage_bucket.backup-bucket.name
 }
