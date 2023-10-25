@@ -49,11 +49,11 @@ resource "github_actions_environment_secret" "totomsexpenses-secret-cicdsakey" {
     secret_name = "CICD_SERVICE_ACCOUNT"
     plaintext_value = jsonencode(jsondecode(base64decode(google_service_account_key.toto-cicd-sa-key.private_key)))
 }
-resource "github_actions_environment_secret" "totomsexpenses-secret-pid" {
+resource "github_actions_environment_variable" "totomsexpenses-secret-pid" {
     repository = "toto-ms-expenses"
     environment = var.gcp_pid
-    secret_name = "GCP_PID"
-    plaintext_value = var.gcp_pid
+    variable_name = "GCP_PID"
+    value = var.gcp_pid
 }
 resource "github_actions_environment_secret" "totomsexpenses-secret-service-account" {
     repository = "toto-ms-expenses"
