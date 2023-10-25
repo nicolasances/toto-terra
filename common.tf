@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------
 # Common Service Accounts
 resource "google_service_account" "toto-cicd-service-account" {
-  account_id = "totox-cicd"
+  account_id = "toto-cicd"
   display_name = "CI/CD Service Account"
 }
 resource "google_service_account_key" "toto-cicd-sa-key" {
