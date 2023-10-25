@@ -6,7 +6,7 @@ terraform {
         }
         github = {
             source  = "integrations/github"
-            version = "4.20.0"
+            version = "5.40.0"
         }
     }
     # backend "gcs" {
