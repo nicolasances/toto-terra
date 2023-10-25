@@ -32,7 +32,7 @@ resource "google_storage_bucket" "backup-bucket" {
 }
 
 # ---------------------------------------------------------------
-# Github environment secrets 
+# Github environment secrets & variables
 resource "github_repository_environment" "toto-ms-expenses-github-environment" {
     repository = "toto-ms-expenses"
     environment = var.gcp_pid
@@ -42,4 +42,22 @@ resource "github_actions_environment_secret" "toto_backup_bucket_envsecret" {
     environment = var.gcp_pid
     secret_name = "backup_bucket"
     plaintext_value   = google_storage_bucket.backup-bucket.name
+}
+resource "github_actions_environment_secret" "totomsexpenses-secret-cicdsakey" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    secret_name = "CICD_SERVICE_ACCOUNT"
+    plaintext_value = jsonencode(jsondecode(base64decode(google_service_account_key.toto-cicd-sa-key.private_key)))
+}
+resource "github_actions_environment_secret" "totomsexpenses-secret-pid" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    secret_name = "GCP_PID"
+    plaintext_value = var.gcp_pid
+}
+resource "github_actions_environment_secret" "totomsexpenses-secret-service-account" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    secret_name = "SERVICE_ACCOUNT"
+    plaintext_value = google_service_account.toto-ms-expenses-service-account.email
 }
