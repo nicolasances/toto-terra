@@ -16,15 +16,3 @@ variable "gcp_service_account_key" {
     description = "Terraform Service Account key"
     type = string
 }
-# ---------------------------------------------------------
-# Github variables
-# ---------------------------------------------------------
-variable "git_env_prefix" {
-    description = "Prefix of the github action secrets"
-    type = string
-}
-variable "git_token" {
-    description = "Access token used to authenticate to Github"
-    type = string
-    sensitive = true
-}

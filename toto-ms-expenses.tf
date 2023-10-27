@@ -41,7 +41,7 @@ resource "github_actions_environment_secret" "toto_backup_bucket_envsecret" {
     repository = "toto-ms-expenses"
     environment = var.gcp_pid
     secret_name = "backup_bucket"
-    plaintext_value   = google_storage_bucket.backup-bucket.name
+    plaintext_value  = google_storage_bucket.backup-bucket.name
 }
 resource "github_actions_environment_secret" "totomsexpenses-secret-cicdsakey" {
     repository = "toto-ms-expenses"
@@ -60,4 +60,37 @@ resource "github_actions_environment_secret" "totomsexpenses-secret-service-acco
     environment = var.gcp_pid
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ms-expenses-service-account.email
+}
+
+# ---------------------------------------------------------------
+# Secrets needed by this service
+variable "toto_ms_expenses_mongo_user" {
+    description = "Mongo User for expenses"
+    type = "string"
+    sensitive = true
+}
+variable "toto_ms_expenses_mongo_pswd" {
+    description = "Mongo Password for expenses"
+    type = "string"
+    sensitive = true
+}
+resource "google_secret_manager_secret" "toto-ms-expenses-mongo-user" {
+    secret_id = "toto-ms-expenses-mongo-user"
+    replication {
+        auto { }
+    }
+}
+resource "google_secret_manager_secret_version" "toto-ms-expenses-mongo-user-version" {
+    secret = google_secret_manager_secret.toto-ms-expenses-mongo-user.id
+    secret_data = var.toto_ms_expenses_mongo_user
+}
+resource "google_secret_manager_secret" "toto-ms-expenses-mongo-pswd" {
+    secret_id = "toto-ms-expenses-mongo-pswd"
+    replication {
+        auto { }
+    }
+}
+resource "google_secret_manager_secret_version" "toto-ms-expenses-mongo-pswd-version" {
+    secret = google_secret_manager_secret.toto-ms-expenses-mongo-pswd.id
+    secret_data = var.toto_ms_expenses_mongo_pswd
 }
