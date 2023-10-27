@@ -34,10 +34,6 @@ resource "google_project_iam_member" "ci-cd-roles-storageobjectviewer" {
 # ---------------------------------------------------------
 # Github variables
 # ---------------------------------------------------------
-variable "git_env_prefix" {
-    description = "Prefix of the github action secrets"
-    type = string
-}
 variable "git_token" {
     description = "Access token used to authenticate to Github"
     type = string

@@ -66,12 +66,12 @@ resource "github_actions_environment_secret" "totomsexpenses-secret-service-acco
 # Secrets needed by this service
 variable "toto_ms_expenses_mongo_user" {
     description = "Mongo User for expenses"
-    type = "string"
+    type = string
     sensitive = true
 }
 variable "toto_ms_expenses_mongo_pswd" {
     description = "Mongo Password for expenses"
-    type = "string"
+    type = string
     sensitive = true
 }
 resource "google_secret_manager_secret" "toto-ms-expenses-mongo-user" {
