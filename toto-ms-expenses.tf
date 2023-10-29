@@ -113,7 +113,7 @@ resource "google_dns_record_set" "api_expenses_dns" {
 # 5.2. Domain Mapping
 resource "google_cloud_run_domain_mapping" "api_expenses_domain_mapping" {
   location = var.gcp_region
-  name = format("expenses.api.%s.toto.nimatz.com", var.toto_environment)
+  name = format("expenses.api.%s.toto", var.toto_environment)
   spec {
     route_name = "toto-ms-expenses"
   }
