@@ -116,7 +116,7 @@ resource "google_dns_record_set" "api_expenses_dns" {
   project = var.gcp_pid
 }
 # 5.2. Domain Mapping
-resource "google_cloud_run_domain_mapping" "api_expenses_domain_mapping" {
+resource "google_cloud_run_domain_mapping" "api-expenses-domain-mapping" {
   location = var.gcp_region
   name = format("expenses.api.%s.%s", var.toto_environment, google_dns_managed_zone.dns_zone.dns_name)
   spec {
