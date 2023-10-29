@@ -34,16 +34,15 @@ resource "google_cloud_scheduler_job" "job_expenses_backup" {
 
   http_target {
     http_method = "POST"
-    uri         = format("https://%s/backup", google_cloud_run_domain_mapping.api_expenses_domain_mapping.name)
+    uri         = format("https://expenses.api.%s.toto.nimatz.com/backup", var.toto_environment)
     headers = {
       "auth-provider" = "google"
-      "x-client-id" = format("https://%s/backup", google_cloud_run_domain_mapping.api_expenses_domain_mapping.name)
+      "x-client-id" = format("https://expenses.api.%s.toto.nimatz.com/backup", var.toto_environment)
       "x-correlation-id" = format("cs-%s", formatdate("YYYYMMDDhhmmss", timestamp()))
     }
     
     oidc_token {
       service_account_email = google_service_account.cloud_scheduler_service_account.email
-      audience = format("https://%s/backup", google_cloud_run_domain_mapping.api_expenses_domain_mapping.name)
     }
   }
 }
