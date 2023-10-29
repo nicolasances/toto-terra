@@ -113,6 +113,6 @@ resource "google_dns_record_set" "api_expenses_dns" {
   rrdatas = ["ghs.googlehosted.com."]
   type = "CNAME"
   ttl  = 3600
-  managed_zone = "nimatz.com"
+  managed_zone = google_dns_managed_zone.dns_zone.name
   project = "totolive"
 }
