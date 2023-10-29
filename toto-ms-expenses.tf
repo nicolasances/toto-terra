@@ -1,11 +1,16 @@
-# Create the Service Account
+# ---------------------------------------------------------------
+# 1. Service Account 
+# ---------------------------------------------------------------
+# 1.1. Service Account 
+# ---------------------------------------------------------------
 resource "google_service_account" "toto-ms-expenses-service-account" {
   account_id = "toto-ms-expenses"
   display_name = "Expenses Service Account"
 }
 
 # ---------------------------------------------------------------
-# Provide IAM roles to Service Account
+# 1.2. Service Account Roles
+# ---------------------------------------------------------------
 resource "google_project_iam_member" "toto-ms-expenses-role-secretmanagedaccessor" {
     project = var.gcp_pid
     role = "roles/secretmanager.secretAccessor"
@@ -23,7 +28,8 @@ resource "google_project_iam_member" "toto-ms-expenses-role-gcs" {
 }
 
 # ---------------------------------------------------------------
-# Storage Bucket to store the backups
+# 2. Storage Bucket 
+# ---------------------------------------------------------------
 resource "google_storage_bucket" "backup-bucket" {
     name = format("%s-expenses-backup-bucket", var.gcp_pid)
     location = "EU"
@@ -32,7 +38,8 @@ resource "google_storage_bucket" "backup-bucket" {
 }
 
 # ---------------------------------------------------------------
-# Github environment secrets & variables
+# 3. Github environment secrets & variables
+# ---------------------------------------------------------------
 resource "github_repository_environment" "toto-ms-expenses-github-environment" {
     repository = "toto-ms-expenses"
     environment = var.gcp_pid
@@ -63,7 +70,10 @@ resource "github_actions_environment_secret" "totomsexpenses-secret-service-acco
 }
 
 # ---------------------------------------------------------------
-# Secrets needed by this service
+# 4. Google Secret Manager
+#
+#    Secrets for the microservice
+# ---------------------------------------------------------------
 variable "toto_ms_expenses_mongo_user" {
     description = "Mongo User for expenses"
     type = string
@@ -93,4 +103,15 @@ resource "google_secret_manager_secret" "toto-ms-expenses-mongo-pswd" {
 resource "google_secret_manager_secret_version" "toto-ms-expenses-mongo-pswd-version" {
     secret = google_secret_manager_secret.toto-ms-expenses-mongo-pswd.id
     secret_data = var.toto_ms_expenses_mongo_pswd
+}
+
+# ---------------------------------------------------------------
+# 5. Cloud DNS
+# ---------------------------------------------------------------
+resource "google_dns_record_set" "api_expenses_dns" {
+  name = format("expenses.%s.api.toto.nimatz.com.", var.toto_environment)
+  type = "CNAME"
+  ttl  = 3600
+  managed_zone = "nimatz.com"
+  project = "totolive"
 }

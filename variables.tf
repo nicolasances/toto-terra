@@ -16,3 +16,7 @@ variable "gcp_service_account_key" {
     description = "Terraform Service Account key"
     type = string
 }
+variable "toto_environment" {
+    description = "The environment (dev, prod)"
+    type = string
+}
