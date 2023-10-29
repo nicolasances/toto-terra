@@ -10,6 +10,7 @@ The Service Account should have these permissions:
  * `Editor` on the Project 
  * `Security Admin`
  * `Secret Manager Admin`
+ * `Cloud DNS Admin`
 
 ### 1.2. Activate the necessary APIs
 The following APIs need to be active, for Terraform to be able to integrate with GCP: 
