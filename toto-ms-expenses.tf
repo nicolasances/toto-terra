@@ -103,7 +103,7 @@ resource "google_secret_manager_secret_version" "toto-ms-expenses-mongo-pswd-ver
 # ---------------------------------------------------------------
 # 5.1. DNS 
 resource "google_dns_record_set" "api_expenses_dns" {
-  name = format("expenses.api.%s.toto", var.toto_environment)
+  name = format("expenses.api.%s.toto.", var.toto_environment)
   rrdatas = ["ghs.googlehosted.com."]
   type = "CNAME"
   ttl  = 3600
