@@ -70,9 +70,7 @@ resource "github_actions_environment_secret" "totomsexpenses-secret-service-acco
 }
 
 # ---------------------------------------------------------------
-# 4. Google Secret Manager
-#
-#    Secrets for the microservice
+# 4. Google Secret Manager (Secrets)
 # ---------------------------------------------------------------
 variable "toto_ms_expenses_mongo_user" {
     description = "Mongo User for expenses"
@@ -106,8 +104,9 @@ resource "google_secret_manager_secret_version" "toto-ms-expenses-mongo-pswd-ver
 }
 
 # ---------------------------------------------------------------
-# 5. Cloud DNS
+# 5. Cloud DNS & Domain Mapping
 # ---------------------------------------------------------------
+# 5.1. DNS 
 resource "google_dns_record_set" "api_expenses_dns" {
   name = format("expenses.api.%s.nimatz.com.", var.toto_environment)
   rrdatas = ["ghs.googlehosted.com."]
@@ -115,4 +114,12 @@ resource "google_dns_record_set" "api_expenses_dns" {
   ttl  = 3600
   managed_zone = google_dns_managed_zone.dns_zone.name
   project = var.gcp_pid
+}
+# 5.2. Domain Mapping
+resource "google_cloud_run_domain_mapping" "api_expenses_domain_mapping" {
+  location = var.gcp_region
+  name = format("expenses.api.%s.nimatz.com.", var.toto_environment)
+  spec {
+    route_name = "toto-ms-expenses"
+  }
 }
