@@ -108,7 +108,7 @@ resource "google_secret_manager_secret_version" "toto-ms-expenses-mongo-pswd-ver
 # ---------------------------------------------------------------
 # 5.1. DNS 
 resource "google_dns_record_set" "api_expenses_dns" {
-  name = format("expenses.api.%s.%s", var.toto_environment, google_dns_managed_zone.dns_zone.dns_name)
+  name = format("expenses.api.%s", google_dns_managed_zone.dns_zone.dns_name)
   rrdatas = ["ghs.googlehosted.com."]
   type = "CNAME"
   ttl  = 3600
@@ -116,9 +116,9 @@ resource "google_dns_record_set" "api_expenses_dns" {
   project = var.gcp_pid
 }
 # 5.2. Domain Mapping
-resource "google_cloud_run_domain_mapping" "api-expenses-domain-mapping" {
+resource "google_cloud_run_domain_mapping" "api_expenses_domain_mapping" {
   location = var.gcp_region
-  name = format("expenses.api.%s.%s", var.toto_environment, google_dns_managed_zone.dns_zone.dns_name)
+  name = format("expenses.api.%s.toto.nimatz.com", var.toto_environment)
   spec {
     route_name = "toto-ms-expenses"
   }
