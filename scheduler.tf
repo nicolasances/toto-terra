@@ -34,10 +34,10 @@ resource "google_cloud_scheduler_job" "job_expenses_backup" {
 
   http_target {
     http_method = "POST"
-    uri         = format("https://expenses.api.%s.toto.nimatz.com/backup", var.toto_environment)
+    uri         = format("https://toto-ms-expenses-%s/backup", var.cloud_run_endpoint_suffix)
     headers = {
       "auth-provider" = "google"
-      "x-client-id" = format("https://expenses.api.%s.toto.nimatz.com/backup", var.toto_environment)
+      "x-client-id" = format("https://toto-ms-expenses-%s/backup", var.cloud_run_endpoint_suffix)
       "x-correlation-id" = format("cs-%s", formatdate("YYYYMMDDhhmmss", timestamp()))
     }
     
