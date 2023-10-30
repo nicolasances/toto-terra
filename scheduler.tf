@@ -6,7 +6,7 @@
 # 1.1. Service Account 
 # ---------------------------------------------------------------
 resource "google_service_account" "cloud_scheduler_service_account" {
-  account_id = "toto-cloud-scheduler"
+  account_id = "toto-scheduler"
   display_name = "Cloud Scheduler Service Account"
 }
 # ---------------------------------------------------------------
