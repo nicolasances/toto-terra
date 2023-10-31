@@ -20,4 +20,4 @@ To do that you need to:
 ### 1.2. Activate the necessary APIs
 The following APIs need to be active, for Terraform to be able to integrate with GCP: 
  * Identity and Access Management (IAM) API 
- * Cloud Resource Manager API 
+ * Cloud Resource Manager API  
