@@ -21,6 +21,11 @@ resource "google_project_iam_member" "toto-ms-expenses-role-gcs" {
     role = "roles/storage.admin"
     member = format("serviceAccount:%s", google_service_account.toto-ms-expenses-service-account.email)
 }
+resource "google_project_iam_member" "toto-ms-expenses-role-pubsub" {
+    project = var.gcp_pid
+    role = "roles/pubsub.publisher"
+    member = format("serviceAccount:%s", google_service_account.toto-ms-expenses-service-account.email)
+}
 
 # ---------------------------------------------------------------
 # 2. Storage Bucket 
@@ -120,4 +125,32 @@ resource "google_cloud_run_domain_mapping" "api_expenses_domain_mapping" {
   metadata {
     namespace = var.gcp_pid
   }
+}
+
+
+# ---------------------------------------------------------------
+# 6. PubSub Subscriptions to events
+# ---------------------------------------------------------------
+resource "google_pubsub_subscription" "sub_expenses_self" {
+    name = "ExpensesEventsToSelf"
+    topic = google_pubsub_topic.topic_expenses.name
+
+    ack_deadline_seconds = 30
+
+    push_config {
+      push_endpoint = format("https://toto-ms-expenses-%s/events", var.cloud_run_endpoint_suffix)
+      oidc_token {
+        service_account_email = google_service_account.toto-pubsub-service-account.email
+        audience = format("https://toto-ms-expenses-%s/events", var.cloud_run_endpoint_suffix)
+      }
+    }
+
+    expiration_policy {
+      ttl = ""
+    }
+
+    retry_policy {
+      minimum_backoff = "10s"
+      maximum_backoff = "600s"
+    }
 }
