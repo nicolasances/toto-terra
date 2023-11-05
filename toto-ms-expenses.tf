@@ -141,7 +141,7 @@ resource "google_pubsub_subscription" "sub_expenses_self" {
       push_endpoint = format("https://toto-ms-expenses-%s/events", var.cloud_run_endpoint_suffix)
       oidc_token {
         service_account_email = google_service_account.toto-pubsub-service-account.email
-        audience = format("https://toto-ms-expenses-%s/events", var.cloud_run_endpoint_suffix)
+        audience = var.target_audience
       }
     }
 
