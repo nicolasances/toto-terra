@@ -38,7 +38,7 @@ resource "google_cloud_scheduler_job" "job_expenses_backup" {
     headers = {
       "auth-provider" = "google"
       "x-client-id" = format("https://toto-ms-expenses-%s/backup", var.cloud_run_endpoint_suffix)
-      "x-correlation-id" = format("cs-%s", formatdate("YYYYMMDDhhmmss", timestamp()))
+      "x-correlation-id" = "cloud-sched"
     }
     
     oidc_token {
