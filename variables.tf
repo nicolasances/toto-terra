@@ -19,6 +19,10 @@ variable "gcp_service_account_key" {
     description = "Terraform Service Account key"
     type = string
 }
+variable "gcp_project_number" {
+    description = "Project number on GCP"
+    type = string
+}
 # ---------------------------------------------------------------
 # 2. Toto Environment Variables
 # ---------------------------------------------------------------

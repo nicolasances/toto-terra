@@ -21,6 +21,13 @@ resource "google_project_iam_member" "toto-pubsub-role-tokencreator" {
     role = "roles/iam.serviceAccountTokenCreator"
     member = format("serviceAccount:%s", google_service_account.toto-pubsub-service-account.email)
 }
+# Provide the general Google-managed PubSub Service Account the token creator role
+# This seems to be needed for some reason.. 
+resource "google_project_iam_member" "gcp-pubsub-role-tokencreator" {
+    project = var.gcp_pid
+    role = "roles/iam.serviceAccountTokenCreator"
+    member = format("service-%s@gcp-sa-pubsub.iam.gserviceaccount.com", var.gcp_project_number)
+}
 
 # ---------------------------------------------------------------
 # 2. Topics
