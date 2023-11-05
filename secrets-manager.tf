@@ -20,3 +20,13 @@ resource "google_secret_manager_secret_version" "secret_version_target_audience"
     secret = google_secret_manager_secret.secret_target_audience.id
     secret_data = var.target_audience
 }
+resource "google_secret_manager_secret" "secret_toto_auth_endpoint" {
+    secret_id = "toto-auth-endpoint"
+    replication {
+      auto {}
+    }
+}
+resource "google_secret_manager_secret_version" "secret_version_toto_auth_endpoint" {
+    secret = google_secret_manager_secret.secret_toto_auth_endpoint.id
+    secret_data = format("https://toto-ms-auth-%s", var.cloud_run_endpoint_suffix)
+}
