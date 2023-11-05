@@ -1,0 +1,22 @@
+# ---------------------------------------------------------------
+# 1. Variables for Secret Manager
+# ---------------------------------------------------------------
+variable "target_audience" {
+    description = "Target Audience to use in JWT flows"
+    type = string
+    sensitive = true
+}
+
+# ---------------------------------------------------------------
+# 2. Generic Secrets to be stored in Secrets Manager
+# ---------------------------------------------------------------
+resource "google_secret_manager_secret" "secret_target_audience" {
+    secret_id = "toto-expected-audience"
+    replication {
+      auto {}
+    }
+}
+resource "google_secret_manager_secret_version" "secret_version_target_audience" {
+    secret = google_secret_manager_secret.secret_target_audience.id
+    secret_data = var.target_audience
+}
