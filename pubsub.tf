@@ -28,4 +28,7 @@ resource "google_project_iam_member" "toto-pubsub-role-tokencreator" {
 resource "google_pubsub_topic" "topic_expenses" {
     name = "expenses"
 }
+resource "google_pubsub_topic" "topic_tags" {
+    name = "tags"
+}
 
