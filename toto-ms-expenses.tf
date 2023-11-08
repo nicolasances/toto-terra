@@ -161,7 +161,7 @@ resource "google_pubsub_subscription" "sub_tags_self" {
     ack_deadline_seconds = 30
 
     push_config {
-      push_endpoint = format("https://toto-ms-expenses-%s/events/tag", var.cloud_run_endpoint_suffix)
+      push_endpoint = format("https://toto-ms-expenses-%s/events", var.cloud_run_endpoint_suffix)
       oidc_token {
         service_account_email = google_service_account.toto-pubsub-service-account.email
         audience = var.target_audience
