@@ -43,6 +43,7 @@ resource "google_cloud_scheduler_job" "job_expenses_backup" {
     
     oidc_token {
       service_account_email = google_service_account.cloud_scheduler_service_account.email
+      audience = var.target_audience
     }
   }
 }
