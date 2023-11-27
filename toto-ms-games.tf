@@ -30,6 +30,12 @@ resource "google_project_iam_member" "toto-ms-games-role-pubsub" {
 # ---------------------------------------------------------------
 # 2. Storage Bucket 
 # ---------------------------------------------------------------
+resource "google_storage_bucket" "games_data_bucket" {
+    name = format("%s-games-data-bucket", var.gcp_pid)
+    location = "EU"
+    force_destroy = false
+    uniform_bucket_level_access = true
+}
 
 # ---------------------------------------------------------------
 # 3. Github environment secrets & variables
@@ -55,6 +61,12 @@ resource "github_actions_environment_secret" "totomsgames-secret-service-account
     environment = var.gcp_pid
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ms-games-service-account.email
+}
+resource "github_actions_environment_secret" "toto_games_data_backup_github_env" {
+    repository = "toto-ms-games"
+    environment = var.gcp_pid
+    secret_name = "GAMES_BUCKET"
+    plaintext_value  = google_storage_bucket.games_data_bucket.name
 }
 
 # ---------------------------------------------------------------
