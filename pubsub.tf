@@ -31,4 +31,7 @@ resource "google_pubsub_topic" "topic_expenses" {
 resource "google_pubsub_topic" "topic_tags" {
     name = "tags"
 }
+resource "google_pubsub_topic" "topic_games" {
+    name = "games"
+}
 
