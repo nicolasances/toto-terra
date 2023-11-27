@@ -5,7 +5,7 @@
 # ---------------------------------------------------------------
 resource "google_service_account" "toto-ms-games-service-account" {
   account_id = "toto-ms-games"
-  display_name = "Expenses Service Account"
+  display_name = "Games Service Account"
 }
 
 # ---------------------------------------------------------------
