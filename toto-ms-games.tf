@@ -68,6 +68,18 @@ resource "github_actions_environment_secret" "toto_games_data_backup_github_env"
     secret_name = "GAMES_BUCKET"
     plaintext_value  = google_storage_bucket.games_data_bucket.name
 }
+resource "github_actions_environment_secret" "secret_games_kud_api_endpoint" {
+    repository = "toto-ms-games"
+    environment = var.gcp_pid
+    secret_name = "GAMES_API_ENDPOINT"
+    plaintext_value  = format("https://toto-ms-kud-%s", var.cloud_run_endpoint_suffix)
+}
+resource "github_actions_environment_secret" "secret_games_expensesv2_api_endpoint" {
+    repository = "toto-ms-games"
+    environment = var.gcp_pid
+    secret_name = "EXPENSESV2_API_ENDPOINT"
+    plaintext_value  = format("https://toto-ms-expenses-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
