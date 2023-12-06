@@ -71,7 +71,7 @@ resource "github_actions_environment_secret" "toto_games_data_backup_github_env"
 resource "github_actions_environment_secret" "secret_games_kud_api_endpoint" {
     repository = "toto-ms-games"
     environment = var.gcp_pid
-    secret_name = "GAMES_API_ENDPOINT"
+    secret_name = "KUD_API_ENDPOINT"
     plaintext_value  = format("https://toto-ms-kud-%s", var.cloud_run_endpoint_suffix)
 }
 resource "github_actions_environment_secret" "secret_games_expensesv2_api_endpoint" {
