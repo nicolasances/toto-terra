@@ -80,6 +80,12 @@ resource "github_actions_environment_secret" "secret_games_expensesv2_api_endpoi
     secret_name = "EXPENSESV2_API_ENDPOINT"
     plaintext_value  = format("https://toto-ms-expenses-%s", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_secret" "secret_games_expcat_api_endpoint" {
+    repository = "toto-ms-games"
+    environment = var.gcp_pid
+    secret_name = "EPXCAT_API_ENDPOINT"
+    plaintext_value  = format("https://toto-ml-expcat-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
