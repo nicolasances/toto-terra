@@ -68,6 +68,12 @@ resource "github_actions_environment_secret" "toto_kud_data_backup_github_env" {
     secret_name = "KUD_BUCKET"
     plaintext_value  = google_storage_bucket.kud_data_bucket.name
 }
+resource "github_actions_environment_secret" "toto_kud_backup_bucket" {
+    repository = "toto-ms-kud"
+    environment = var.gcp_pid
+    secret_name = "BACKUP_BUCKET"
+    plaintext_value  = google_storage_bucket.backup-bucket.name
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
