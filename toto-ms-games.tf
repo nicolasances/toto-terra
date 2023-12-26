@@ -86,6 +86,12 @@ resource "github_actions_environment_secret" "secret_games_expcat_api_endpoint" 
     secret_name = "EPXCAT_API_ENDPOINT"
     plaintext_value  = format("https://toto-ml-expcat-%s", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_secret" "secret_games_backup_bucket" {
+    repository = "toto-ms-games"
+    environment = var.gcp_pid
+    secret_name = "BACKUP_BUCKET"
+    plaintext_value = google_storage_bucket.backup-bucket.name
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
