@@ -47,3 +47,29 @@ resource "google_cloud_scheduler_job" "job_expenses_backup" {
     }
   }
 }
+resource "google_cloud_scheduler_job" "job_kud_backup" {
+  name             = "kud-backup"
+  description      = "Executes the backup of the Kud Database"
+  schedule         = "0 1 * * *"
+  time_zone        = "Europe/Rome"
+  attempt_deadline = "320s"
+
+  retry_config {
+    retry_count = 1
+  }
+
+  http_target {
+    http_method = "POST"
+    uri         = format("https://toto-ms-kud-%s/backup", var.cloud_run_endpoint_suffix)
+    headers = {
+      "auth-provider" = "google"
+      "x-client-id" = format("https://toto-ms-kud-%s/backup", var.cloud_run_endpoint_suffix)
+      "x-correlation-id" = "cloud-sched"
+    }
+    
+    oidc_token {
+      service_account_email = google_service_account.cloud_scheduler_service_account.email
+      audience = var.target_audience
+    }
+  }
+}
