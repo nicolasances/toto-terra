@@ -84,7 +84,21 @@ resource "github_actions_environment_secret" "secret_restore_backup_bucket" {
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
 # ---------------------------------------------------------------
-
+variable "restore_allowed_user" {
+    description = "User that is allowed to execute a restore"
+    type = string
+    sensitive = true
+}
+resource "google_secret_manager_secret" "toto_restore_user_secret" {
+    secret_id = "toto-restore-user"
+    replication {
+        auto { }
+    }
+}
+resource "google_secret_manager_secret_version" "toto_restore_user_secret_version" {
+    secret = google_secret_manager_secret.toto_restore_user_secret.id
+    secret_data = var.restore_allowed_user
+}
 # ---------------------------------------------------------------
 # 5. Cloud DNS & Domain Mapping
 # ---------------------------------------------------------------
