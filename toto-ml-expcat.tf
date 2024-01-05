@@ -52,13 +52,13 @@ resource "github_actions_environment_secret" "toto-ml-expcat-secret-service-acco
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ml-expcat-service-account.email
 }
-resource "github_actions_environment_secret" "toto_kud_backup_bucket" {
+resource "github_actions_environment_secret" "toto_ml_expcat_backup_bucket" {
     repository = "toto-ml-expcat"
     environment = var.gcp_pid
     secret_name = "BACKUP_BUCKET"
     plaintext_value  = google_storage_bucket.backup-bucket.name
 }
-resource "github_actions_environment_secret" "toto_kud_backup_bucket" {
+resource "github_actions_environment_secret" "toto_ml_expcat_backup_bucket" {
     repository = "toto-ml-expcat"
     environment = var.gcp_pid
     secret_name = "MODELS_BUCKET"
