@@ -28,16 +28,6 @@ resource "google_project_iam_member" "toto-ms-expenses-role-pubsub" {
 }
 
 # ---------------------------------------------------------------
-# 2. Storage Bucket 
-# ---------------------------------------------------------------
-resource "google_storage_bucket" "backup-bucket" {
-    name = format("%s-expenses-backup-bucket", var.gcp_pid)
-    location = "EU"
-    force_destroy = false
-    uniform_bucket_level_access = true
-}
-
-# ---------------------------------------------------------------
 # 3. Github environment secrets & variables
 # ---------------------------------------------------------------
 resource "github_repository_environment" "toto-ms-expenses-github-environment" {
