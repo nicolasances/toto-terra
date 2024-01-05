@@ -58,7 +58,7 @@ resource "github_actions_environment_secret" "toto_ml_expcat_backup_bucket" {
     secret_name = "BACKUP_BUCKET"
     plaintext_value  = google_storage_bucket.backup-bucket.name
 }
-resource "github_actions_environment_secret" "toto_ml_expcat_backup_bucket" {
+resource "github_actions_environment_secret" "toto_ml_expcat_models_bucket" {
     repository = "toto-ml-expcat"
     environment = var.gcp_pid
     secret_name = "MODELS_BUCKET"
