@@ -51,6 +51,12 @@ resource "github_actions_environment_secret" "toto-ml-incast-secret-service-acco
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ml-incast-service-account.email
 }
+resource "github_actions_environment_secret" "toto-ml-incast-secret-expenses-endpoint" {
+    repository = "toto-ms-games"
+    environment = var.gcp_pid
+    secret_name = "EXPENSES_API_ENDPOINT"
+    plaintext_value  = format("https://toto-ms-expenses-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
