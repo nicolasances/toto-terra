@@ -37,4 +37,7 @@ resource "google_pubsub_topic" "topic_games" {
 resource "google_pubsub_topic" "topic_kuds" {
     name = "kuds"
 }
+resource "google_pubsub_topic" "topic_supermarket" {
+    name = "supermarket"
+}
 

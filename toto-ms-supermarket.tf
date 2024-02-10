@@ -107,3 +107,26 @@ resource "google_secret_manager_secret_version" "toto-ms-supermarket-mongo-pswd-
 # ---------------------------------------------------------------
 # 6. PubSub Subscriptions to events
 # ---------------------------------------------------------------
+resource "google_pubsub_subscription" "sub_supermarket_self" {
+    name = "SupermarketEventToSelf"
+    topic = google_pubsub_topic.topic_supermarket.name
+
+    ack_deadline_seconds = 30
+
+    push_config {
+      push_endpoint = format("https://toto-ms-supermarket-%s/events", var.cloud_run_endpoint_suffix)
+      oidc_token {
+        service_account_email = google_service_account.toto-pubsub-service-account.email
+        audience = var.target_audience
+      }
+    }
+
+    expiration_policy {
+      ttl = ""
+    }
+
+    retry_policy {
+      minimum_backoff = "10s"
+      maximum_backoff = "600s"
+    }
+}
