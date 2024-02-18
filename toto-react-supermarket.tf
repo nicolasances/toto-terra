@@ -45,3 +45,9 @@ resource "github_actions_environment_secret" "web_suppie_github_secret_client_id
     secret_name = "GOOGLE_CLIENT_ID"
     plaintext_value = var.web_google_client_id
 }
+resource "github_actions_environment_secret" "web_suppie_github_secret_gcppid" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    secret_name = "GCP_PID"
+    plaintext_value = var.gcp_pid
+}
