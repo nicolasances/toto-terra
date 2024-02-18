@@ -37,3 +37,11 @@ variable "cloud_run_endpoint_suffix" {
     description = "Suffix that Cloud Run appends to the service name to provide an HTTPS endpoint"
     type = string
 }
+# ---------------------------------------------------------------
+# 4. Other
+# ---------------------------------------------------------------
+variable "web_google_client_id" {
+    description = "Client ID for the frontends to use"
+    type = string
+    sensitive = true
+}
