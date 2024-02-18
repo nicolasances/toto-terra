@@ -25,19 +25,19 @@ resource "github_actions_environment_secret" "web_suppie_github_secret_games_end
 }
 resource "github_actions_environment_secret" "web_suppie_github_secret_service_account" {
     repository = "toto-react-supermarket"
-    environment = var.gcp_pid
+    environment = var.toto_environment
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.web_suppie_service_account.email
 }
 resource "github_actions_environment_secret" "web_suppie_github_secret_cicdsakey" {
     repository = "toto-react-supermarket"
-    environment = var.gcp_pid
+    environment = var.toto_environment
     secret_name = "CICD_SERVICE_ACCOUNT"
     plaintext_value = jsonencode(jsondecode(base64decode(google_service_account_key.toto-cicd-sa-key.private_key)))
 }
 resource "github_actions_environment_secret" "web_suppie_github_secret_client_id" {
     repository = "toto-react-supermarket"
-    environment = var.gcp_pid
+    environment = var.toto_environment
     secret_name = "GOOGLE_CLIENT_ID"
     plaintext_value = var.web_google_client_id
 }
