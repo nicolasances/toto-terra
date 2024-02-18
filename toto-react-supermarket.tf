@@ -9,8 +9,12 @@ resource "google_service_account" "web_suppie_service_account" {
 }
 
 # ---------------------------------------------------------------
-# 3. Github environment secrets & variables
+# 3. Github environment, secrets & variables
 # ---------------------------------------------------------------
+resource "github_repository_environment" "web_suppie_github_environment" {
+    repository = "toto-react-supermarket"
+    environment = var.toto_environment
+}
 resource "github_actions_environment_secret" "web_suppie_github_secret_expenses_endpoint" {
     repository = "toto-react-supermarket"
     environment = var.toto_environment
