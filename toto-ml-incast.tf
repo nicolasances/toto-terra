@@ -58,7 +58,7 @@ resource "github_actions_environment_secret" "toto-ml-incast-secret-expenses-end
     plaintext_value  = format("https://toto-ms-expenses-%s", var.cloud_run_endpoint_suffix)
 }
 resource "github_actions_environment_secret" "toto_ml_expcat_models_bucket" {
-    repository = "toto-ml-expcat"
+    repository = "toto-ml-incast"
     environment = var.gcp_pid
     secret_name = "MODELS_BUCKET"
     plaintext_value  = google_storage_bucket.models-bucket.name
