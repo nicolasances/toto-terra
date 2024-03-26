@@ -38,7 +38,7 @@ resource "github_actions_environment_secret" "toto-ms-supermarket-bucket-envsecr
     repository = "toto-ms-supermarket"
     environment = var.gcp_pid
     secret_name = "BACKUP_BUCKET"
-    plaintext_value  = google_storage_bucket.backup-bucket.name
+    plaintext_value  = google_storage_bucket.supermarket-backup-bucket.name
 }
 resource "github_actions_environment_secret" "toto-ms-supermarket-secret-cicdsakey" {
     repository = "toto-ms-supermarket"

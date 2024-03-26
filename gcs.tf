@@ -13,3 +13,9 @@ resource "google_storage_bucket" "models-bucket" {
     force_destroy = false
     uniform_bucket_level_access = true
 }
+resource "google_storage_bucket" "supermarket-backup-bucket" {
+    name = format("%s-supermarket-backup-bucket", var.gcp_pid)
+    location = "EU"
+    force_destroy = false
+    uniform_bucket_level_access = true
+}
