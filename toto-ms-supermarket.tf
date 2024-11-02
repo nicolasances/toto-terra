@@ -58,6 +58,12 @@ resource "github_actions_environment_secret" "toto-ms-supermarket-secret-service
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ms-supermarket-service-account.email
 }
+resource "github_actions_environment_secret" "toto-ms-supermarket-secret-supito-endpoint" {
+    repository = "toto-ms-supermarket"
+    environment = var.gcp_pid
+    secret_name = "SUPITO_API_ENDPOINT"
+    plaintext_value = format("https://api.%s.toto.aws.to7o.com", var.toto_environment)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
