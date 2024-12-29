@@ -21,6 +21,12 @@ resource "github_actions_environment_secret" "tome_github_secret_auth_endpoint" 
     secret_name = "AUTH_API_ENDPOINT"
     plaintext_value  = format("https://toto-ms-auth-%s", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_secret" "tome_github_secret_aws_api_endpoint" {
+    repository = "tome"
+    environment = var.toto_environment
+    secret_name = "AWS_TOTO_API_ENDPOINT"
+    plaintext_value  = format("https://api.%s.toto.aws.to7o.com", var.toto_environment)
+}
 resource "github_actions_environment_secret" "tome_github_secret_service_account" {
     repository = "tome"
     environment = var.toto_environment
