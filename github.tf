@@ -7,6 +7,7 @@ resource "google_service_account" "toto-cicd-service-account" {
 }
 resource "google_service_account_key" "toto-cicd-sa-key" {
     service_account_id = google_service_account.toto-cicd-service-account.name
+    private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE"
 }
 
 # Grant the right roles to the CI CD service account
