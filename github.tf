@@ -30,6 +30,11 @@ resource "google_project_iam_member" "ci-cd-roles-storageobjectviewer" {
     role = "roles/storage.objectViewer"
     member = format("serviceAccount:%s", google_service_account.toto-cicd-service-account.email)
 }
+resource "google_project_iam_member" "ci-cd-roles-storageobjectviewer" {
+    project = var.gcp_pid
+    role = "roles/artifactregistry.admin"
+    member = format("serviceAccount:%s", google_service_account.toto-cicd-service-account.email)
+}
 
 # ---------------------------------------------------------
 # Github variables
