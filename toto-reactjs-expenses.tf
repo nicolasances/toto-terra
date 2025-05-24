@@ -19,3 +19,9 @@ resource "github_actions_environment_secret" "web_expenses_github_secret_incast_
     secret_name = "INCAST_API_ENDPOINT"
     plaintext_value  = format("https://toto-ml-incast-%s", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_secret" "totoreactjsexpenses-secret-cicdsakey" {
+    repository = "toto-reactjs-expenses"
+    environment = var.gcp_pid
+    secret_name = "CICD_SERVICE_ACCOUNT"
+    plaintext_value = jsonencode(jsondecode(base64decode(google_service_account_key.toto-cicd-sa-key.private_key)))
+}
