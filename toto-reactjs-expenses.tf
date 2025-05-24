@@ -21,7 +21,7 @@ resource "github_actions_environment_secret" "web_expenses_github_secret_incast_
 }
 resource "github_actions_environment_secret" "totoreactjsexpenses-secret-cicdsakey" {
     repository = "toto-reactjs-expenses"
-    environment = var.gcp_pid
+    environment = var.toto_environment
     secret_name = "CICD_SERVICE_ACCOUNT"
     plaintext_value = jsonencode(jsondecode(base64decode(google_service_account_key.toto-cicd-sa-key.private_key)))
 }
