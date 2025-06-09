@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------
-# 1. Service Account 
+# 1. Service Account
 # ---------------------------------------------------------------
 # 1.1. Service Account 
 # ---------------------------------------------------------------
@@ -25,6 +25,19 @@ resource "google_project_iam_member" "tome-ms-topics-role-pubsub" {
     project = var.gcp_pid
     role = "roles/pubsub.publisher"
     member = format("serviceAccount:%s", google_service_account.tome-ms-topics-service-account.email)
+}
+# ---------------------------------------------------------------
+# 2. Artifact Repository
+# ---------------------------------------------------------------
+resource "google_artifact_registry_repository" "tome-ms-topics-registry" {
+    location = var.gcp_region
+    repository_id = "tome-ms-topics"
+    format = "DOCKER"
+    description = "Tome Topics API Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
 }
 
 # ---------------------------------------------------------------
