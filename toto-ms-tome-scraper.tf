@@ -86,7 +86,7 @@ resource "github_actions_environment_secret" "toto-ms-tome-scraper-secret-servic
 # 6. PubSub Subscriptions to events
 # ---------------------------------------------------------------
 resource "google_pubsub_subscription" "sub_tomescraper_to_topics" {
-    name = "SupermarketEventToSelf"
+    name = "TopicsToTomeScraper"
     topic = google_pubsub_topic.topic_tome_topics.name
 
     ack_deadline_seconds = 30
