@@ -40,4 +40,6 @@ resource "google_pubsub_topic" "topic_kuds" {
 resource "google_pubsub_topic" "topic_supermarket" {
     name = "supermarket"
 }
-
+resource "google_pubsub_topic" "topic_tome_topics" {
+    name = "tometopics"
+}
