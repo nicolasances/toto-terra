@@ -71,6 +71,12 @@ resource "github_actions_environment_variable" "toto-ms-llm-var-pid" {
     variable_name = "GCP_PID"
     value = var.gcp_pid
 }
+resource "github_actions_environment_variable" "toto-ms-llm-var-region" {
+    repository = "toto-ms-llm"
+    environment = var.gcp_pid
+    variable_name = "GCP_REGION"
+    value = var.gcp_region
+}
 resource "github_actions_environment_secret" "toto-ms-llm-secret-service-account" {
     repository = "toto-ms-llm"
     environment = var.gcp_pid
