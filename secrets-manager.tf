@@ -30,3 +30,14 @@ resource "google_secret_manager_secret_version" "secret_version_toto_auth_endpoi
     secret = google_secret_manager_secret.secret_toto_auth_endpoint.id
     secret_data = format("https://toto-ms-auth-%s", var.cloud_run_endpoint_suffix)
 }
+
+resource "google_secret_manager_secret" "secret_aws_sandbox_llm_api_endpoint" {
+    secret_id = "aws-sandbox-llm-api-endpoint"
+    replication {
+      auto {}
+    }
+}
+resource "google_secret_manager_secret_version" "secret_version_aws_sandbox_llm_api_endpoint" {
+    secret = google_secret_manager_secret.secret_aws_sandbox_llm_api_endpoint.id
+    secret_data = var.aws_sandbox_llm_api
+}

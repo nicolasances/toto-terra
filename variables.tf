@@ -45,3 +45,8 @@ variable "web_google_client_id" {
     type = string
     sensitive = true
 }
+variable "aws_sandbox_llm_api" {
+    description = "API endpoint for the AWS Sandbox-hosted LLM"
+    type = string
+    sensitive = true
+}
