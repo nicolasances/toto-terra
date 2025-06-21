@@ -72,6 +72,12 @@ resource "github_actions_environment_secret" "tome-ms-flashcards-secret-service-
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.tome-ms-flashcards-service-account.email
 }
+resource "github_actions_environment_secret" "tome-ms-flashcards-llm-api-endpoint" {
+    repository = "tome-ms-flashcards"
+    environment = var.gcp_pid
+    secret_name = "LLM_API_ENDPOINT"
+    plaintext_value = format("https://toto-ms-llm-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
