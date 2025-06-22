@@ -51,3 +51,9 @@ resource "github_actions_environment_secret" "tome_github_secret_gcppid" {
     secret_name = "GCP_PID"
     plaintext_value = var.gcp_pid
 }
+resource "github_actions_environment_secret" "tome_github_secret_flashcards_api_endpoint" {
+    repository = "tome"
+    environment = var.toto_environment
+    secret_name = "TOME_FLASHCARDS_API_ENDPOINT"
+    plaintext_value = format("https://tome-ms-flashcards-%s", var.cloud_run_endpoint_suffix)
+}
