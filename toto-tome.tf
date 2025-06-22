@@ -57,3 +57,9 @@ resource "github_actions_environment_secret" "tome_github_secret_flashcards_api_
     secret_name = "TOME_FLASHCARDS_API_ENDPOINT"
     plaintext_value = format("https://tome-ms-flashcards-%s", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_secret" "tome_github_secret_tometopics_api_endpoint" {
+    repository = "tome"
+    environment = var.toto_environment
+    secret_name = "TOME_TOPICS_API_ENDPOINT"
+    plaintext_value = format("https://tome-ms-topics-%s", var.cloud_run_endpoint_suffix)
+}
