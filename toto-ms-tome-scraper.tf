@@ -92,7 +92,7 @@ resource "google_pubsub_subscription" "sub_tomescraper_to_topics" {
     ack_deadline_seconds = 30
 
     push_config {
-      push_endpoint = format("https://toto-ms-tome-scraper-%s/events", var.cloud_run_endpoint_suffix)
+      push_endpoint = format("https://toto-ms-tome-scraper-%s/events/topic", var.cloud_run_endpoint_suffix)
       oidc_token {
         service_account_email = google_service_account.toto-pubsub-service-account.email
         audience = var.target_audience
