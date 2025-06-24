@@ -73,13 +73,13 @@ resource "github_actions_environment_secret" "tome-ms-practice-secret-service-ac
     plaintext_value = google_service_account.tome-ms-practice-service-account.email
 }
 resource "github_actions_environment_variable" "tome_ms_practice_github_envvar_flashcards_endpoint" {
-    repository = "tome"
+    repository = "tome-ms-practice"
     environment = var.toto_environment
     variable_name = "TOME_FLASHCARDS_API_ENDPOINT"
     value = format("https://tome-ms-flashcards-%s", var.cloud_run_endpoint_suffix)
 }
 resource "github_actions_environment_variable" "tome_ms_practice_github_envvar_topics_endpoint" {
-    repository = "tome"
+    repository = "tome-ms-practice"
     environment = var.toto_environment
     variable_name = "TOME_TOPICS_API_ENDPOINT"
     value = format("https://tome-ms-topics-%s", var.cloud_run_endpoint_suffix)
