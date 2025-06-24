@@ -63,3 +63,9 @@ resource "github_actions_environment_variable" "tome_github_envvar_tometopics_ap
     variable_name = "TOME_TOPICS_API_ENDPOINT"
     value = format("https://tome-ms-topics-%s", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_variable" "tome_github_envvar_tomepractice_api_endpoint" {
+    repository = "tome"
+    environment = var.toto_environment
+    variable_name = "TOME_PRACTICE_API_ENDPOINT"
+    value = format("https://tome-ms-practice-%s", var.cloud_run_endpoint_suffix)
+}
