@@ -8,6 +8,20 @@ resource "google_service_account" "tome_service_account" {
   display_name = "Tome Service Account"
 }
 
+# --------------------------------------------------------------
+# 2. Artifact Repository
+# ---------------------------------------------------------------
+resource "google_artifact_registry_repository" "tome-webapp-registry" {
+    location = var.gcp_region
+    repository_id = "tome"
+    format = "DOCKER"
+    description = "Tome Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
+}
+
 # ---------------------------------------------------------------
 # 3. Github environment, secrets & variables
 # ---------------------------------------------------------------
