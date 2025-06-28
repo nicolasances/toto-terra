@@ -27,6 +27,20 @@ resource "google_project_iam_member" "toto-ms-supermarket-role-pubsub" {
     member = format("serviceAccount:%s", google_service_account.toto-ms-supermarket-service-account.email)
 }
 
+# --------------------------------------------------------------
+# 2. Artifact Repository
+# ---------------------------------------------------------------
+resource "google_artifact_registry_repository" "toto-ms-supermarket-registry" {
+    location = var.gcp_region
+    repository_id = "toto-ms-supermarket"
+    format = "DOCKER"
+    description = "Toto MS Supermarket Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
+}
+
 # ---------------------------------------------------------------
 # 3. Github environment secrets & variables
 # ---------------------------------------------------------------
