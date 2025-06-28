@@ -43,3 +43,6 @@ resource "google_pubsub_topic" "topic_supermarket" {
 resource "google_pubsub_topic" "topic_tome_topics" {
     name = "tometopics"
 }
+resource "google_pubsub_topic" "topic_tome_practice" {
+    name = "tomepractices"
+}
