@@ -89,7 +89,7 @@ resource "google_pubsub_subscription" "sub_tomescraper_to_topics" {
     name = "TopicsToTomeScraper"
     topic = google_pubsub_topic.topic_tome_topics.name
 
-    ack_deadline_seconds = 30
+    ack_deadline_seconds = 360
 
     push_config {
       push_endpoint = format("https://toto-ms-tome-scraper-%s/events/topic", var.cloud_run_endpoint_suffix)
