@@ -126,7 +126,7 @@ resource "google_pubsub_subscription" "sub_tome_ms_flashcards_to_topics" {
     name = "TopicsToTomeFlashcards"
     topic = google_pubsub_topic.topic_tome_topics.name
 
-    ack_deadline_seconds = 30
+    ack_deadline_seconds = 360
 
     push_config {
       push_endpoint = format("https://tome-ms-flashcards-%s/events/topic", var.cloud_run_endpoint_suffix)
