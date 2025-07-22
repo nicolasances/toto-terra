@@ -138,3 +138,26 @@ resource "google_pubsub_subscription" "sub_tome_practice_to_topic" {
       maximum_backoff = "600s"
     }
 }
+resource "google_pubsub_subscription" "sub_tometopics_to_topic" {
+    name = "TopicsToTomeTopic"
+    topic = google_pubsub_topic.topic_tome_topics.name
+
+    ack_deadline_seconds = 30
+
+    push_config {
+      push_endpoint = format("https://toto-ms-topics-%s/events/topic", var.cloud_run_endpoint_suffix)
+      oidc_token {
+        service_account_email = google_service_account.toto-pubsub-service-account.email
+        audience = var.target_audience
+      }
+    }
+
+    expiration_policy {
+      ttl = ""
+    }
+
+    retry_policy {
+      minimum_backoff = "10s"
+      maximum_backoff = "600s"
+    }
+}
