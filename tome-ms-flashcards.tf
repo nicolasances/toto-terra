@@ -145,3 +145,26 @@ resource "google_pubsub_subscription" "sub_tome_ms_flashcards_to_topics" {
       maximum_backoff = "600s"
     }
 }
+resource "google_pubsub_subscription" "sub_tome_ms_flashcards_to_self" {
+    name = "TomeFlashcardsToTomeFlashcards"
+    topic = google_pubsub_topic.topic_tome_flashcards.name
+
+    ack_deadline_seconds = 600
+
+    push_config {
+      push_endpoint = format("https://tome-ms-flashcards-%s/events/flashcards", var.cloud_run_endpoint_suffix)
+      oidc_token {
+        service_account_email = google_service_account.toto-pubsub-service-account.email
+        audience = var.target_audience
+      }
+    }
+
+    expiration_policy {
+      ttl = ""
+    }
+
+    retry_policy {
+      minimum_backoff = "10s"
+      maximum_backoff = "600s"
+    }
+}

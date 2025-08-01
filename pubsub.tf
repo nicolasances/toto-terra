@@ -46,3 +46,6 @@ resource "google_pubsub_topic" "topic_tome_topics" {
 resource "google_pubsub_topic" "topic_tome_practice" {
     name = "tomepractices"
 }
+resource "google_pubsub_topic" "topic_tome_flashcards" {
+    name = "tomeflashcards"
+}
