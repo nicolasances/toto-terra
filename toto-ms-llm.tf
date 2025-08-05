@@ -87,6 +87,36 @@ resource "github_actions_environment_secret" "toto-ms-llm-secret-service-account
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
 # ---------------------------------------------------------------
+variable "toto_ms_llm_mongo_user" {
+    description = "Mongo User for Toto LLM"
+    type = string
+    sensitive = true
+}
+variable "toto_ms_llm_mongo_pswd" {
+    description = "Mongo Password for Toto LLM"
+    type = string
+    sensitive = true
+}
+resource "google_secret_manager_secret" "toto-ms-llm-mongo-user" {
+    secret_id = "toto-ms-llm-mongo-user"
+    replication {
+        auto { }
+    }
+}
+resource "google_secret_manager_secret_version" "toto-ms-llm-mongo-user-version" {
+    secret = google_secret_manager_secret.toto-ms-llm-mongo-user.id
+    secret_data = var.toto_ms_llm_mongo_user
+}
+resource "google_secret_manager_secret" "toto-ms-llm-mongo-pswd" {
+    secret_id = "toto-ms-llm-mongo-pswd"
+    replication {
+        auto { }
+    }
+}
+resource "google_secret_manager_secret_version" "toto-ms-llm-mongo-pswd-version" {
+    secret = google_secret_manager_secret.toto-ms-llm-mongo-pswd.id
+    secret_data = var.toto_ms_llm_mongo_pswd
+}
 
 # ---------------------------------------------------------------
 # 5. Cloud DNS & Domain Mapping
