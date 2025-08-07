@@ -71,6 +71,12 @@ resource "github_actions_environment_secret" "tome-ms-topics-secret-service-acco
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.tome-ms-topics-service-account.email
 }
+resource "github_actions_environment_variable" "tome_ms_topics_github_envvar_flashcards_endpoint" {
+    repository = "tome-ms-topics"
+    environment = var.gcp_pid
+    variable_name = "TOME_FLASHCARDS_API_ENDPOINT"
+    value = format("https://tome-ms-flashcards-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
