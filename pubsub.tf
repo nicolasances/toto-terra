@@ -49,3 +49,7 @@ resource "google_pubsub_topic" "topic_tome_practice" {
 resource "google_pubsub_topic" "topic_tome_flashcards" {
     name = "tomeflashcards"
 }
+resource "google_pubsub_topic" "topic_gale_agents" {
+    name = "galeagents"
+}
+

@@ -121,3 +121,26 @@ resource "google_secret_manager_secret_version" "gale-broker-mongo-pswd-version"
 # ---------------------------------------------------------------
 # 6. PubSub Subscriptions to events
 # ---------------------------------------------------------------
+resource "google_pubsub_subscription" "sub_galebroker_to_agents" {
+    name = "GaleBrokerToAgents"
+    topic = google_pubsub_topic.topic_gale_agents.name
+
+    ack_deadline_seconds = 600
+
+    push_config {
+      push_endpoint = format("https://gale-broker-%s/events/topic", var.cloud_run_endpoint_suffix)
+      oidc_token {
+        service_account_email = google_service_account.toto-pubsub-service-account.email
+        audience = var.target_audience
+      }
+    }
+
+    expiration_policy {
+      ttl = ""
+    }
+
+    retry_policy {
+      minimum_backoff = "10s"
+      maximum_backoff = "600s"
+    }
+}
