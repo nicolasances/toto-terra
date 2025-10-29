@@ -128,7 +128,7 @@ resource "google_pubsub_subscription" "sub_galebroker_to_agents" {
     ack_deadline_seconds = 600
 
     push_config {
-      push_endpoint = format("https://gale-broker-%s/events/topic", var.cloud_run_endpoint_suffix)
+      push_endpoint = format("https://gale-broker-%s/events/agent", var.cloud_run_endpoint_suffix)
       oidc_token {
         service_account_email = google_service_account.toto-pubsub-service-account.email
         audience = var.target_audience
