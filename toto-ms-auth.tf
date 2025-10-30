@@ -17,9 +17,19 @@ resource "google_project_iam_member" "toto-ms-auth-role-secretmanagedaccessor" {
     member = format("serviceAccount:%s", google_service_account.toto-ms-auth-service-account.email)
 }
 
+# --------------------------------------------------------------
+# 2. Artifact Repository
 # ---------------------------------------------------------------
-# 2. Storage Bucket 
-# ---------------------------------------------------------------
+resource "google_artifact_registry_repository" "toto-ms-auth-registry" {
+    location = var.gcp_region
+    repository_id = "toto-ms-auth"
+    format = "DOCKER"
+    description = "Toto MS Auth Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
+}
 
 # ---------------------------------------------------------------
 # 3. Github environment secrets & variables
