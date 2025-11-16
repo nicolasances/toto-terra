@@ -30,6 +30,10 @@ variable "toto_environment" {
     description = "The environment (dev, prod)"
     type = string
 }
+variable "toto_aws_environment" {
+    description = "The AWS environment (dev, prod)"
+    type = string
+}
 # ---------------------------------------------------------------
 # 3. Cloud Run Variables
 # ---------------------------------------------------------------

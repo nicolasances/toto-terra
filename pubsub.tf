@@ -57,7 +57,7 @@ resource "google_pubsub_topic" "topic_gale_agents" {
 # 3. Secrets for Topic Names
 # ---------------------------------------------------------------
 resource "google_secret_manager_secret" "topic_name_tometopics_secret" {
-  secret_id = "tome-topics-topic-name"
+  secret_id = "tome_topics_topic_name"
   replication {
     auto {}
   }
