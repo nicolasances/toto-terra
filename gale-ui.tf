@@ -65,9 +65,15 @@ resource "github_actions_environment_secret" "gale_ui_github_secret_gcppid" {
     secret_name = "GCP_PID"
     plaintext_value = var.gcp_pid
 }
-resource "github_actions_environment_variable" "gale_ui_github_envvar_tometopics_api_endpoint" {
+resource "github_actions_environment_variable" "gale_ui_github_envvar_gale_broker_api_endpoint" {
     repository = "gale-ui"
     environment = var.toto_environment
     variable_name = "GALE_BROKER_API_ENDPOINT"
     value = format("https://api.%s.toto.nimoto.eu/galebroker", var.toto_aws_environment)
+}
+resource "github_actions_environment_variable" "gale_ui_github_envvar_gale_playground_api_endpoint" {
+    repository = "gale-ui"
+    environment = var.toto_environment
+    variable_name = "GALE_PLAYGROUND_API_ENDPOINT"
+    value = format("https://api.%s.toto.nimoto.eu/galeplayground", var.toto_aws_environment)
 }
