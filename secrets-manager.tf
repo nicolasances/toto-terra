@@ -41,3 +41,14 @@ resource "google_secret_manager_secret_version" "secret_version_aws_sandbox_llm_
     secret = google_secret_manager_secret.secret_aws_sandbox_llm_api_endpoint.id
     secret_data = var.aws_sandbox_llm_api
 }
+
+resource "google_secret_manager_secret" "secret_toto_registry_endpoint" {
+    secret_id = "toto-registry-endpoint"
+    replication {
+      auto {}
+    }
+}
+resource "google_secret_manager_secret_version" "secret_version_toto_registry_endpoint" {
+    secret = google_secret_manager_secret.secret_toto_registry_endpoint.id
+    secret_data = var.toto_registry_endpoint
+}

@@ -54,3 +54,8 @@ variable "aws_sandbox_llm_api" {
     type = string
     sensitive = true
 }
+variable "toto_registry_endpoint" {
+    description = "API endpoint for the Toto Registry"
+    type = string
+    sensitive = true
+}
