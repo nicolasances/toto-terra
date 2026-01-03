@@ -50,5 +50,5 @@ resource "google_secret_manager_secret" "secret_toto_registry_endpoint" {
 }
 resource "google_secret_manager_secret_version" "secret_version_toto_registry_endpoint" {
     secret = google_secret_manager_secret.secret_toto_registry_endpoint.id
-    secret_data = var.toto_registry_endpoint
+    secret_data = format("https://toto-ms-registry-%s", var.cloud_run_endpoint_suffix)
 }
