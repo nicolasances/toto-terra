@@ -75,7 +75,7 @@ resource "github_actions_environment_variable" "tome_github_envvar_tometopics_ap
     repository = "tome"
     environment = var.toto_environment
     variable_name = "TOME_TOPICS_API_ENDPOINT"
-    value = format("https://tome-ms-topics-%s", var.cloud_run_endpoint_suffix)
+    value = format("https://api.%s.toto.nimoto.eu/tometopics", var.toto_environment)
 }
 resource "github_actions_environment_variable" "tome_github_envvar_tomepractice_api_endpoint" {
     repository = "tome"
