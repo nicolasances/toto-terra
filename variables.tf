@@ -54,3 +54,8 @@ variable "aws_sandbox_llm_api" {
     type = string
     sensitive = true
 }
+variable "openai_api_key" {
+    description = "OpenAI API Key"
+    type = string
+    sensitive = true
+}
