@@ -122,6 +122,7 @@ resource "google_artifact_registry_repository" "toto-ms-restore-artifact-repo" {
         immutable_tags = true
     }
 
+    cleanup_policy_dry_run = false
     cleanup_policies {
         id     = "keep-minimum-versions"
         action = "KEEP"
