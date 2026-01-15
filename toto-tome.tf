@@ -101,3 +101,9 @@ resource "github_actions_environment_secret" "tome_github_secret_openaikey" {
     secret_name = "OPENAI_API_KEY"
     plaintext_value = var.openai_api_key
 }
+resource "github_actions_environment_variable" "tome_github_envvar_whispering_api_endpoint" {
+    repository = "tome"
+    environment = var.toto_environment
+    variable_name = "WHISPERING_API_ENDPOINT"
+    value = format("https://api.%s.toto.nimoto.eu/whispering", var.toto_environment)
+}
