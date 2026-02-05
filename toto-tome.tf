@@ -107,3 +107,9 @@ resource "github_actions_environment_variable" "tome_github_envvar_whispering_ap
     variable_name = "WHISPERING_API_ENDPOINT"
     value = format("https://api.%s.toto.nimoto.eu/whispering", var.toto_environment)
 }
+resource "github_actions_environment_variable" "tome_github_envvar_gale_broker_api_endpoint" {
+    repository = "tome"
+    environment = var.toto_environment
+    variable_name = "GALE_BROKER_API_ENDPOINT"
+    value = format("https://api.%s.toto.nimoto.eu/galebroker", var.toto_environment)
+}
