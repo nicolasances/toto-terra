@@ -67,3 +67,16 @@ resource "google_secret_manager_secret_version" "topic_name_tometopics_secret_ve
   secret = google_secret_manager_secret.topic_name_tometopics_secret.id
   secret_data = google_pubsub_topic.topic_tome_topics.name
 }
+
+# Supermarket topic secret
+resource "google_secret_manager_secret" "topic_name_supermarket_secret" {
+  secret_id = "topic-name-supermarket"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "topic_name_supermarket_secret_version" {
+  secret = google_secret_manager_secret.topic_name_supermarket_secret.id
+  secret_data = google_pubsub_topic.topic_supermarket.name
+}
