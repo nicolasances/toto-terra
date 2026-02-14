@@ -108,3 +108,26 @@ resource "google_secret_manager_secret_version" "toto_restore_user_secret_versio
 # ---------------------------------------------------------------
 # 6. PubSub Subscriptions to events
 # ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+# 7. Artifact Registry
+# ---------------------------------------------------------------
+resource "google_artifact_registry_repository" "toto-ms-restore-artifact-repo" {
+    location = "europe-west1"
+    repository_id = "toto-ms-restore"
+    description = "Artifact Registry for toto-ms-restore"
+    format = "DOCKER"
+    
+    docker_config {
+        immutable_tags = true
+    }
+
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-minimum-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count            = 1
+        }
+    }
+}
