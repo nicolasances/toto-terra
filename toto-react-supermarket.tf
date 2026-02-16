@@ -13,7 +13,7 @@ resource "google_service_account" "web_suppie_service_account" {
 # ---------------------------------------------------------------
 resource "google_artifact_registry_repository" "web_suppie_registry" {
     location = var.gcp_region
-    repository_id = "toto-suppie"
+    repository_id = "toto-react-supermarket"
     format = "DOCKER"
     description = "Toto Suppie API Artifact Registry"
     labels = {
