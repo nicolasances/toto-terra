@@ -9,6 +9,20 @@ resource "google_service_account" "web_suppie_service_account" {
 }
 
 # ---------------------------------------------------------------
+# 2. Artifact Repository
+# ---------------------------------------------------------------
+resource "google_artifact_registry_repository" "web_suppie_registry" {
+    location = var.gcp_region
+    repository_id = "toto-suppie"
+    format = "DOCKER"
+    description = "Toto Suppie API Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
+}
+
+# ---------------------------------------------------------------
 # 3. Github environment, secrets & variables
 # ---------------------------------------------------------------
 resource "github_repository_environment" "web_suppie_github_environment" {
