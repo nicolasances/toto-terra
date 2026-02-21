@@ -80,3 +80,16 @@ resource "google_secret_manager_secret_version" "topic_name_supermarket_secret_v
   secret = google_secret_manager_secret.topic_name_supermarket_secret.id
   secret_data = google_pubsub_topic.topic_supermarket.name
 }
+
+# Gale Agents topic name secret
+resource "google_secret_manager_secret" "topic_name_gale_agents_secret" {
+  secret_id = "topic-name-gale-agents"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "topic_name_gale_agents_secret_version" {
+  secret = google_secret_manager_secret.topic_name_gale_agents_secret.id
+  secret_data = google_pubsub_topic.topic_gale_agents.name
+}
