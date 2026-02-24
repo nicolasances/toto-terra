@@ -41,6 +41,12 @@ resource "github_actions_environment_secret" "web_suppie_github_secret_games_end
     secret_name = "AUTH_API_ENDPOINT"
     plaintext_value  = format("https://toto-ms-auth-%s", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_secret" "web_suppie_github_secret_gale_broker_endpoint" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    secret_name = "GALE_BROKER_API_ENDPOINT"
+    plaintext_value  = format("https://gale-broker-%s", var.cloud_run_endpoint_suffix)
+}
 resource "github_actions_environment_secret" "web_suppie_github_secret_service_account" {
     repository = "toto-suppie"
     environment = var.toto_environment
