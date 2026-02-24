@@ -84,6 +84,12 @@ resource "github_actions_environment_secret" "toto-ms-supermarket-secret-gale-br
     secret_name = "GALE_BROKER_URL"
     plaintext_value = format("https://gale-broker-%s/galebroker", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_secret" "toto-ms-supermarket-secret-service-base-url" {
+    repository = "toto-ms-supermarket"
+    environment = var.gcp_pid
+    secret_name = "SERVICE_BASE_URL"
+    plaintext_value = format("https://toto-ms-supermarket-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
