@@ -26,6 +26,11 @@ resource "google_project_iam_member" "toto-ms-supermarket-role-pubsub" {
     role = "roles/pubsub.publisher"
     member = format("serviceAccount:%s", google_service_account.toto-ms-supermarket-service-account.email)
 }
+resource "google_project_iam_member" "toto-ms-supermarket_role_aiplatform" {
+    project = var.gcp_pid
+    role = "roles/aiplatform.user"
+    member = format("serviceAccount:%s", google_service_account.toto-ms-supermarket-service-account.email)
+}
 
 # --------------------------------------------------------------
 # 2. Artifact Repository
