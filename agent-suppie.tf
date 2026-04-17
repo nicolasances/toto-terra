@@ -71,6 +71,12 @@ resource "github_actions_environment_secret" "agent-suppie-secret-service-accoun
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.agent-suppie-service-account.email
 }
+resource "github_actions_environment_secret" "agent-suppie-secret-service-base-url" {
+    repository = "agent-suppie"
+    environment = var.gcp_pid
+    secret_name = "SERVICE_BASE_URL"
+    plaintext_value = format("https://agent-suppie-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
