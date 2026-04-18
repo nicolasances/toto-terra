@@ -27,6 +27,20 @@ resource "google_project_iam_member" "toto-ms-games-role-pubsub" {
     member = format("serviceAccount:%s", google_service_account.toto-ms-games-service-account.email)
 }
 
+# --------------------------------------------------------------
+# 2. Artifact Repository
+# ---------------------------------------------------------------
+resource "google_artifact_registry_repository" "toto-ms-games-registry" {
+    location = var.gcp_region
+    repository_id = "toto-ms-games"
+    format = "DOCKER"
+    description = "Toto MS Games Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
+}
+
 # ---------------------------------------------------------------
 # 2. Storage Bucket 
 # ---------------------------------------------------------------
