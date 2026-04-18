@@ -89,6 +89,12 @@ resource "github_actions_environment_secret" "agent-suppie-secret-gale-broker-en
     secret_name = "GALE_BROKER_URL"
     plaintext_value = format("https://gale-broker-%s/galebroker", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_secret" "agent-suppie-secret-supermarket-api-endpoint" {
+    repository = "agent-suppie"
+    environment = var.gcp_pid
+    secret_name = "SUPERMARKET_API_ENDPOINT"
+    plaintext_value = format("https://toto-ms-supermarket-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
