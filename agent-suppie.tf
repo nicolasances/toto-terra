@@ -75,7 +75,7 @@ resource "github_actions_environment_secret" "agent-suppie-secret-service-base-u
     repository = "agent-suppie"
     environment = var.gcp_pid
     secret_name = "SERVICE_BASE_URL"
-    plaintext_value = format("https://agent-suppie-%s/agentsuppie", var.cloud_run_endpoint_suffix)
+    plaintext_value = format("https://agent-suppie-%s/suppieagent", var.cloud_run_endpoint_suffix)
 }
 resource "github_actions_environment_secret" "agent-suppie-secret-gale-broker-endpoint" {
     repository = "agent-suppie"
