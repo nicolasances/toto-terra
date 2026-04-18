@@ -26,6 +26,12 @@ resource "google_project_iam_member" "agent-suppie-role-pubsub" {
     role = "roles/pubsub.publisher"
     member = format("serviceAccount:%s", google_service_account.agent-suppie-service-account.email)
 }
+resource "google_project_iam_member" "agent_suppie_role_aiplatform" {
+    project = var.gcp_pid
+    role = "roles/aiplatform.user"
+    member = format("serviceAccount:%s", google_service_account.agent-suppie-service-account.email)
+}
+
 # ---------------------------------------------------------------
 # 2. Artifact Repository
 # ---------------------------------------------------------------
