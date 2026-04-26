@@ -1,25 +1,3 @@
-# ---------------------------------------------------------------
-# 0. Artifact Registry
-# ---------------------------------------------------------------
-resource "google_artifact_registry_repository" "tome-ms-language-artifact-repo" {
-    location = var.gcp_region
-    repository_id = "tome-ms-language"
-    format = "DOCKER"
-    description = "Artifact Registry for tome-ms-language"
-    labels = {
-        "created_by" = "terraform"
-        "project" = var.gcp_pid
-    }
-    
-    cleanup_policy_dry_run = false
-    cleanup_policies {
-        id     = "keep-minimum-versions"
-        action = "KEEP"
-        most_recent_versions {
-            keep_count            = 1
-        }
-    }
-}
 
 # ---------------------------------------------------------------
 # 1. Service Account
@@ -61,6 +39,15 @@ resource "google_artifact_registry_repository" "tome-ms-language-registry" {
     labels = {
         "created_by" = "terraform"
         "project" = var.gcp_pid
+    }
+    
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-minimum-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count            = 1
+        }
     }
 }
 
