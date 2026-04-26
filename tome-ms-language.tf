@@ -2,15 +2,15 @@
 # 0. Artifact Registry
 # ---------------------------------------------------------------
 resource "google_artifact_registry_repository" "tome-ms-language-artifact-repo" {
-    location = "europe-west1"
+    location = var.gcp_region
     repository_id = "tome-ms-language"
-    description = "Artifact Registry for tome-ms-language"
     format = "DOCKER"
-    
-    docker_config {
-        immutable_tags = true
+    description = "Artifact Registry for tome-ms-language"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
     }
-
+    
     cleanup_policy_dry_run = false
     cleanup_policies {
         id     = "keep-minimum-versions"
