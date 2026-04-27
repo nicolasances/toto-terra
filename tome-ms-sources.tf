@@ -80,6 +80,12 @@ resource "github_actions_environment_secret" "tome-ms-sources-secret-service-acc
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.tome-ms-sources-service-account.email
 }
+resource "github_actions_environment_secret" "tome-ms-sources-secret-tomelanguage-endpoint" {
+    repository = "tome-ms-sources"
+    environment = var.gcp_pid
+    secret_name = "TOME_LANGUAGE_API_ENDPOINT"
+    plaintext_value = format("https://tome-ms-language-%s", var.cloud_run_endpoint_suffix)
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
