@@ -89,7 +89,7 @@ resource "github_actions_environment_secret" "tome-ms-sources-secret-tomelanguag
     repository = "tome-ms-sources"
     environment = var.gcp_pid
     secret_name = "TOME_LANGUAGE_API_ENDPOINT"
-    plaintext_value = format("https://tome-ms-language-%s", var.cloud_run_endpoint_suffix)
+    plaintext_value = format("https://tome-ms-language-%s/tomelang", var.cloud_run_endpoint_suffix)
 }
 
 # ---------------------------------------------------------------
