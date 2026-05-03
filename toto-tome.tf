@@ -113,3 +113,15 @@ resource "github_actions_environment_variable" "tome_github_envvar_gale_broker_a
     variable_name = "GALE_BROKER_API_ENDPOINT"
     value = format("https://api.%s.toto.nimoto.eu/galebroker", var.toto_environment)
 }
+resource "github_actions_environment_variable" "tome_github_envvar_tome_sources_api_endpoint" {
+    repository = "tome"
+    environment = var.toto_environment
+    variable_name = "TOME_SOURCES_API_ENDPOINT"
+    value = format("https://tome-ms-sources-%s/tomesources", var.cloud_run_endpoint_suffix)
+}
+resource "github_actions_environment_variable" "tome_github_envvar_tome_language_api_endpoint" {
+    repository = "tome"
+    environment = var.toto_environment
+    variable_name = "TOME_LANGUAGE_API_ENDPOINT"
+    value = format("https://tome-ms-language-%s/tomelang", var.cloud_run_endpoint_suffix)
+}
