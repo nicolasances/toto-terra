@@ -8,6 +8,13 @@ resource "google_service_account" "tome_service_account" {
   display_name = "Tome Service Account"
 }
 
+
+resource "google_project_iam_member" "tome_role_aiplatform" {
+    project = var.gcp_pid
+    role = "roles/aiplatform.user"
+    member = format("serviceAccount:%s", google_service_account.tome_service_account.email)
+}
+
 # --------------------------------------------------------------
 # 2. Artifact Repository
 # ---------------------------------------------------------------
