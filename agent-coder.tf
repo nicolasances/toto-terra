@@ -7,6 +7,10 @@ resource "google_service_account" "agent_coder_service_account" {
   account_id = "agent-coder"
   display_name = "Agent Coder Service Account"
 }
+resource "google_service_account_key" "agent-coder-sa-key" {
+    service_account_id = google_service_account.agent_coder_service_account.name
+    private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE"
+}
 
 # ---------------------------------------------------------------
 # 1.2. Service Account Roles
