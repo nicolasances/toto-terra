@@ -56,5 +56,5 @@ resource "github_actions_environment_secret" "agent_coder-secret-cicdsakey" {
     repository = "agent-coder"
     environment = var.gcp_pid
     secret_name = "CICD_SERVICE_ACCOUNT"
-    plaintext_value = jsonencode(jsondecode(base64decode(google_service_account_key.agent-coder-sa-key.private_key)))
+    plaintext_value = jsonencode(jsondecode(base64decode(google_service_account_key.toto-cicd-sa-key.private_key)))
 }
