@@ -54,7 +54,7 @@ resource "google_secret_manager_secret_version" "secret_version_toto_registry_en
 }
 
 # ---------------------------------------------------------------
-# 3. Agent harness secrets
+# 3. Agent harness secrets & related
 # ---------------------------------------------------------------
 variable "claude_token" {
     description = "Claude Auth Token"
@@ -70,4 +70,20 @@ resource "google_secret_manager_secret" "secret_claude_token" {
 resource "google_secret_manager_secret_version" "secret_version_claude_token" {
     secret = google_secret_manager_secret.secret_claude_token.id
     secret_data = var.claude_token
+}
+
+variable "coding_agent_gh_token" {
+    description = "GitHub Token for Coding Agents"
+    type = string
+    sensitive = true
+}
+resource "google_secret_manager_secret" "secret_coding_agent_gh_token" {
+    secret_id = "coding-agent-gh-token"
+    replication {
+      auto {}
+    }
+}
+resource "google_secret_manager_secret_version" "secret_version_coding_agent_gh_token" {
+    secret = google_secret_manager_secret.secret_coding_agent_gh_token.id
+    secret_data = var.coding_agent_gh_token
 }
