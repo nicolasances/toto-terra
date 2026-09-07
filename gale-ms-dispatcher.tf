@@ -32,7 +32,22 @@ resource "google_project_iam_member" "gale-ms-dispatcher-role-pubsub" {
     role = "roles/pubsub.publisher"
     member = format("serviceAccount:%s", google_service_account.gale-ms-dispatcher-service-account.email)
 }
-# UNCOMMENT IF WORKING WITH AI 
+# Permission to execute the agent Cloud Run Jobs that the Dispatcher dispatches to.
+# Granted project-wide so that adding a new agent to the Dispatcher's Config needs no Terraform change.
+# Two bindings are needed: run.invoker grants run.jobs.run, while the Dispatcher also passes container
+# env overrides on every dispatch (TASK_ID), which requires run.jobs.runWithOverrides.
+resource "google_project_iam_member" "gale-ms-dispatcher-role-run-invoker" {
+    project = var.gcp_pid
+    role = "roles/run.invoker"
+    member = format("serviceAccount:%s", google_service_account.gale-ms-dispatcher-service-account.email)
+}
+resource "google_project_iam_member" "gale-ms-dispatcher-role-run-jobs-executor-overrides" {
+    project = var.gcp_pid
+    role = "roles/run.jobsExecutorWithOverrides"
+    member = format("serviceAccount:%s", google_service_account.gale-ms-dispatcher-service-account.email)
+}
+
+# UNCOMMENT IF WORKING WITH AI
 # resource "google_project_iam_member" "gale-ms-dispatcher_role_aiplatform" {
 #     project = var.gcp_pid
 #     role = "roles/aiplatform.user"
