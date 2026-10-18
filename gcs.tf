@@ -25,3 +25,9 @@ resource "google_storage_bucket" "tome-bucket" {
     force_destroy = false
     uniform_bucket_level_access = true
 }
+resource "google_storage_bucket" "agents-data-bucket" {
+    name = format("%s-agents-data", var.gcp_pid)
+    location = "EU"
+    force_destroy = false
+    uniform_bucket_level_access = true
+}
