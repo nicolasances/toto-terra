@@ -54,6 +54,15 @@ resource "google_artifact_registry_repository" "tome-ms-language-registry" {
             keep_count            = 1
         }
     }
+
+    cleanup_policies {
+        id     = "delete-old"
+        action = "DELETE"
+        condition {
+            tag_state  = "ANY"
+            older_than = "604800s"  # 7 days
+        }
+    }
 }
 
 # Allow public access to the Artifact Registry repository (to pull images without authentication)
