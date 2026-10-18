@@ -56,6 +56,15 @@ resource "google_artifact_registry_repository" "tome-ms-language-registry" {
     }
 }
 
+# Allow public access to the Artifact Registry repository (to pull images without authentication)
+resource "google_artifact_registry_repository_iam_member" "tome-ms-language-public" {
+  project    = google_artifact_registry_repository.tome-ms-language-registry.project
+  location   = google_artifact_registry_repository.tome-ms-language-registry.location
+  repository = google_artifact_registry_repository.tome-ms-language-registry.name
+  role       = "roles/artifactregistry.reader"
+  member     = "allUsers"
+}
+
 # ---------------------------------------------------------------
 # 3. Github environment secrets & variables
 # ---------------------------------------------------------------
