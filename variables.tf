@@ -59,3 +59,16 @@ variable "openai_api_key" {
     type = string
     sensitive = true
 }
+
+# ---------------------------------------------------------------
+# 5. GKE Cluster Variables
+# Used by workkloads hosted in a GKE cluster in another GCP project to access the toto GCP projects (dev and prod)
+# ---------------------------------------------------------------
+variable "gke_project_id" {
+    description = "ID of the GCP project hosting the GKE cluster"
+    type = string
+}
+variable "gke_project_number" {
+    description = "Number of the GCP project hosting the GKE cluster"
+    type = string
+}
