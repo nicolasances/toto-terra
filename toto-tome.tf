@@ -130,5 +130,5 @@ resource "github_actions_environment_variable" "tome_github_envvar_tome_language
     repository = "tome"
     environment = var.toto_environment
     variable_name = "TOME_LANGUAGE_API_ENDPOINT"
-    value = format("https://tome-ms-language-%s/tomelang", var.cloud_run_endpoint_suffix)
+    value = format("https://api.%s.dr.nimat.fr/tomelang", var.toto_environment)
 }
