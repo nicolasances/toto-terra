@@ -172,3 +172,8 @@ resource "google_project_iam_member" "tome-ms-language-gke-role-secretmanagedacc
     role = "roles/secretmanager.secretAccessor"
     member = local.tome_ms_language_gke_principal
 }
+resource "google_project_iam_member" "tome-ms-language-gke-role-secretmanagedaccessor" {
+    project = var.gcp_pid
+    role = "roles/aiplatform.user"
+    member = local.tome_ms_language_gke_principal
+}
