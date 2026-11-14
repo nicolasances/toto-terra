@@ -40,7 +40,7 @@ resource "github_actions_environment_secret" "tome_github_secret_auth_endpoint" 
     repository = "tome"
     environment = var.toto_environment
     secret_name = "AUTH_API_ENDPOINT"
-    plaintext_value  = format("https://toto-ms-auth-%s", var.cloud_run_endpoint_suffix)
+    plaintext_value = var.toto_environment == "dev" ? format("https://api.%s.dr.nimat.fr/auth", var.toto_environment) : "https://api.dr.nimat.fr/auth"
 }
 resource "github_actions_environment_secret" "tome_github_secret_aws_api_endpoint" {
     repository = "tome"
