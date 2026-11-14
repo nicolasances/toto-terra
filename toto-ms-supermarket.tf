@@ -189,3 +189,36 @@ resource "google_pubsub_subscription" "sub_supermarket_self" {
       maximum_backoff = "600s"
     }
 }
+
+# ---------------------------------------------------------------
+# 7. GKE Cluster authorization
+# Use this when hosting this microservice in a GKE cluster in another GCP project, to access the toto GCP projects (dev and prod)
+# ---------------------------------------------------------------
+locals {
+    toto_ms_supermarket_gke_principal = format(
+        "principal://iam.googleapis.com/projects/%s/locations/global/workloadIdentityPools/%s.svc.id.goog/subject/ns/%s/sa/toto-ms-supermarket",
+        var.gke_project_number,
+        var.gke_project_id,
+        var.toto_environment,
+    )
+}
+resource "google_project_iam_member" "toto-ms-supermarket-gke-role-secretmanagedaccessor" {
+    project = var.gcp_pid
+    role = "roles/secretmanager.secretAccessor"
+    member = local.toto_ms_supermarket_gke_principal
+}
+resource "google_project_iam_member" "toto-ms-supermarket-gke-role-gcs" {
+    project = var.gcp_pid
+    role = "roles/storage.admin"
+    member = local.toto_ms_supermarket_gke_principal
+}
+resource "google_project_iam_member" "toto-ms-supermarket-gke-role-pubsub" {
+    project = var.gcp_pid
+    role = "roles/pubsub.publisher"
+    member = local.toto_ms_supermarket_gke_principal
+}
+resource "google_project_iam_member" "toto-ms-supermarket-gke-role-aiplatform" {
+    project = var.gcp_pid
+    role = "roles/aiplatform.user"
+    member = local.toto_ms_supermarket_gke_principal
+}
