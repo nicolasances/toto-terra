@@ -31,6 +31,16 @@ resource "google_artifact_registry_repository" "toto-ms-auth-registry" {
     }
 }
 
+# Allow public access to the Artifact Registry repository (to pull images without authentication)
+# Needed by the GKE cluster (toto-terra-gke), which pulls the image from this project's registry
+resource "google_artifact_registry_repository_iam_member" "toto-ms-auth-public" {
+  project    = google_artifact_registry_repository.toto-ms-auth-registry.project
+  location   = google_artifact_registry_repository.toto-ms-auth-registry.location
+  repository = google_artifact_registry_repository.toto-ms-auth-registry.name
+  role       = "roles/artifactregistry.reader"
+  member     = "allUsers"
+}
+
 # ---------------------------------------------------------------
 # 3. Github environment secrets & variables
 # ---------------------------------------------------------------
@@ -70,3 +80,21 @@ resource "github_actions_environment_secret" "totomsauth-secret-service-account"
 # ---------------------------------------------------------------
 # 6. PubSub Subscriptions to events
 # ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+# 7. GKE Cluster authorization
+# Use this when hosting this microservice in a GKE cluster in another GCP project, to access the toto GCP projects (dev and prod)
+# ---------------------------------------------------------------
+locals {
+    toto_ms_auth_gke_principal = format(
+        "principal://iam.googleapis.com/projects/%s/locations/global/workloadIdentityPools/%s.svc.id.goog/subject/ns/%s/sa/toto-ms-auth",
+        var.gke_project_number,
+        var.gke_project_id,
+        var.toto_environment,
+    )
+}
+resource "google_project_iam_member" "toto-ms-auth-gke-role-secretmanagedaccessor" {
+    project = var.gcp_pid
+    role = "roles/secretmanager.secretAccessor"
+    member = local.toto_ms_auth_gke_principal
+}
