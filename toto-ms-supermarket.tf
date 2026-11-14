@@ -44,6 +44,33 @@ resource "google_artifact_registry_repository" "toto-ms-supermarket-registry" {
         "created_by" = "terraform"
         "project" = var.gcp_pid
     }
+
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-minimum-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count = 1
+        }
+    }
+
+    cleanup_policies {
+        id     = "delete-old"
+        action = "DELETE"
+        condition {
+            tag_state  = "ANY"
+            older_than = "604800s"  # 7 days
+        }
+    }
+}
+
+# Allow the GKE nodes (toto-terra-gke, other GCP project) to pull images from this registry
+resource "google_artifact_registry_repository_iam_member" "toto-ms-supermarket-gke-reader" {
+  project    = google_artifact_registry_repository.toto-ms-supermarket-registry.project
+  location   = google_artifact_registry_repository.toto-ms-supermarket-registry.location
+  repository = google_artifact_registry_repository.toto-ms-supermarket-registry.name
+  role       = "roles/artifactregistry.reader"
+  member     = format("serviceAccount:gke-nodes@%s.iam.gserviceaccount.com", var.gke_project_id)
 }
 
 # ---------------------------------------------------------------
@@ -146,7 +173,7 @@ resource "google_pubsub_subscription" "sub_supermarket_self" {
     ack_deadline_seconds = 30
 
     push_config {
-      push_endpoint = format("https://toto-ms-supermarket-%s/events", var.cloud_run_endpoint_suffix)
+      push_endpoint = format("https://toto-ms-supermarket-%s/supermarket/events", var.cloud_run_endpoint_suffix)
       oidc_token {
         service_account_email = google_service_account.toto-pubsub-service-account.email
         audience = var.target_audience
@@ -161,4 +188,37 @@ resource "google_pubsub_subscription" "sub_supermarket_self" {
       minimum_backoff = "10s"
       maximum_backoff = "600s"
     }
+}
+
+# ---------------------------------------------------------------
+# 7. GKE Cluster authorization
+# Use this when hosting this microservice in a GKE cluster in another GCP project, to access the toto GCP projects (dev and prod)
+# ---------------------------------------------------------------
+locals {
+    toto_ms_supermarket_gke_principal = format(
+        "principal://iam.googleapis.com/projects/%s/locations/global/workloadIdentityPools/%s.svc.id.goog/subject/ns/%s/sa/toto-ms-supermarket",
+        var.gke_project_number,
+        var.gke_project_id,
+        var.toto_environment,
+    )
+}
+resource "google_project_iam_member" "toto-ms-supermarket-gke-role-secretmanagedaccessor" {
+    project = var.gcp_pid
+    role = "roles/secretmanager.secretAccessor"
+    member = local.toto_ms_supermarket_gke_principal
+}
+resource "google_project_iam_member" "toto-ms-supermarket-gke-role-gcs" {
+    project = var.gcp_pid
+    role = "roles/storage.admin"
+    member = local.toto_ms_supermarket_gke_principal
+}
+resource "google_project_iam_member" "toto-ms-supermarket-gke-role-pubsub" {
+    project = var.gcp_pid
+    role = "roles/pubsub.publisher"
+    member = local.toto_ms_supermarket_gke_principal
+}
+resource "google_project_iam_member" "toto-ms-supermarket-gke-role-aiplatform" {
+    project = var.gcp_pid
+    role = "roles/aiplatform.user"
+    member = local.toto_ms_supermarket_gke_principal
 }
