@@ -72,3 +72,7 @@ variable "gke_project_number" {
     description = "Number of the GCP project hosting the GKE cluster"
     type = string
 }
+variable "gke_api_hostname" {
+    description = "Public hostname of the GKE API Gateway for this environment (dev: api.dev.dr.<domain>, prod: api.dr.<domain>). Services on GKE are routed by path on it, e.g. https://<hostname>/supermarket"
+    type = string
+}
