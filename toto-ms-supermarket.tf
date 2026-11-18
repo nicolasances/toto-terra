@@ -47,10 +47,10 @@ resource "google_artifact_registry_repository" "toto-ms-supermarket-registry" {
 
     cleanup_policy_dry_run = false
     cleanup_policies {
-        id     = "keep-minimum-versions"
+        id     = "keep-recent-versions"
         action = "KEEP"
         most_recent_versions {
-            keep_count = 1
+            keep_count = 10
         }
     }
 

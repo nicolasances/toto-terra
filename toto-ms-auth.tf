@@ -29,6 +29,24 @@ resource "google_artifact_registry_repository" "toto-ms-auth-registry" {
         "created_by" = "terraform"
         "project" = var.gcp_pid
     }
+
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-recent-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count = 10
+        }
+    }
+
+    cleanup_policies {
+        id     = "delete-old"
+        action = "DELETE"
+        condition {
+            tag_state  = "ANY"
+            older_than = "604800s"  # 7 days
+        }
+    }
 }
 
 # Allow public access to the Artifact Registry repository (to pull images without authentication)
