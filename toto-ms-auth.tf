@@ -66,6 +66,30 @@ resource "github_actions_environment_secret" "totomsauth-secret-service-account"
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ms-auth-service-account.email
 }
+resource "github_actions_environment_variable" "totomsauth-var-gke-project-id" {
+    repository = "toto-ms-auth"
+    environment = var.gcp_pid
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "totomsauth-var-gke-cluster-name" {
+    repository = "toto-ms-auth"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "totomsauth-var-gke-cluster-location" {
+    repository = "toto-ms-auth"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "totomsauth-var-gke-namespace" {
+    repository = "toto-ms-auth"
+    environment = var.gcp_pid
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)

@@ -76,3 +76,11 @@ variable "gke_api_hostname" {
     description = "Public hostname of the GKE API Gateway for this environment (dev: api.dev.dr.<domain>, prod: api.dr.<domain>). Services on GKE are routed by path on it, e.g. https://<hostname>/supermarket"
     type = string
 }
+variable "gke_cluster_name" {
+    description = "Name of the GKE cluster (in gke_project_id) that CI deploys to"
+    type = string
+}
+variable "gke_cluster_location" {
+    description = "Location of the GKE cluster (region for regional clusters, e.g. europe-west1)"
+    type = string
+}

@@ -92,6 +92,30 @@ resource "github_actions_environment_secret" "web_suppie_github_secret_gcppid" {
     secret_name = "GCP_PID"
     plaintext_value = var.gcp_pid
 }
+resource "github_actions_environment_variable" "web_suppie_github_envvar_gke_project_id" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "web_suppie_github_envvar_gke_cluster_name" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "web_suppie_github_envvar_gke_cluster_location" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "web_suppie_github_envvar_gke_namespace" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
+}
 
 # ---------------------------------------------------------------
 # 4. GKE Cluster authorization

@@ -122,6 +122,30 @@ resource "github_actions_environment_secret" "toto-ms-supermarket-secret-service
     secret_name = "SERVICE_BASE_URL"
     plaintext_value = format("https://toto-ms-supermarket-%s", var.cloud_run_endpoint_suffix)
 }
+resource "github_actions_environment_variable" "toto-ms-supermarket-var-gke-project-id" {
+    repository = "toto-ms-supermarket"
+    environment = var.gcp_pid
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "toto-ms-supermarket-var-gke-cluster-name" {
+    repository = "toto-ms-supermarket"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "toto-ms-supermarket-var-gke-cluster-location" {
+    repository = "toto-ms-supermarket"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "toto-ms-supermarket-var-gke-namespace" {
+    repository = "toto-ms-supermarket"
+    environment = var.gcp_pid
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
