@@ -29,6 +29,24 @@ resource "google_artifact_registry_repository" "toto-ms-auth-registry" {
         "created_by" = "terraform"
         "project" = var.gcp_pid
     }
+
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-recent-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count = 10
+        }
+    }
+
+    cleanup_policies {
+        id     = "delete-old"
+        action = "DELETE"
+        condition {
+            tag_state  = "ANY"
+            older_than = "604800s"  # 7 days
+        }
+    }
 }
 
 # Allow public access to the Artifact Registry repository (to pull images without authentication)
@@ -65,6 +83,30 @@ resource "github_actions_environment_secret" "totomsauth-secret-service-account"
     environment = var.gcp_pid
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ms-auth-service-account.email
+}
+resource "github_actions_environment_variable" "totomsauth-var-gke-project-id" {
+    repository = "toto-ms-auth"
+    environment = var.gcp_pid
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "totomsauth-var-gke-cluster-name" {
+    repository = "toto-ms-auth"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "totomsauth-var-gke-cluster-location" {
+    repository = "toto-ms-auth"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "totomsauth-var-gke-namespace" {
+    repository = "toto-ms-auth"
+    environment = var.gcp_pid
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
 }
 
 # ---------------------------------------------------------------

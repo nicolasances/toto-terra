@@ -21,9 +21,25 @@ resource "google_artifact_registry_repository" "web_suppie_registry" {
         "project" = var.gcp_pid
     }
 
-    # No cleanup policy on purpose: the GKE Deployment (toto-terra-gke) pins an image tag,
-    # which must never be deleted. If one is ever added, use only KEEP most_recent_versions
-    # (no time-based DELETE rule).
+    # KEEP takes precedence over DELETE: the 10 most recent versions are never deleted,
+    # so the image running on GKE (deployed by CI) and a few rollback targets always stay available.
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-recent-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count = 10
+        }
+    }
+
+    cleanup_policies {
+        id     = "delete-old"
+        action = "DELETE"
+        condition {
+            tag_state  = "ANY"
+            older_than = "604800s"  # 7 days
+        }
+    }
 }
 
 # Allow the GKE nodes (toto-terra-gke, other GCP project) to pull images from this registry
@@ -91,6 +107,30 @@ resource "github_actions_environment_secret" "web_suppie_github_secret_gcppid" {
     environment = var.toto_environment
     secret_name = "GCP_PID"
     plaintext_value = var.gcp_pid
+}
+resource "github_actions_environment_variable" "web_suppie_github_envvar_gke_project_id" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "web_suppie_github_envvar_gke_cluster_name" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "web_suppie_github_envvar_gke_cluster_location" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "web_suppie_github_envvar_gke_namespace" {
+    repository = "toto-suppie"
+    environment = var.toto_environment
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
 }
 
 # ---------------------------------------------------------------

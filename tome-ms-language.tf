@@ -45,13 +45,13 @@ resource "google_artifact_registry_repository" "tome-ms-language-registry" {
         "created_by" = "terraform"
         "project" = var.gcp_pid
     }
-    
+
     cleanup_policy_dry_run = false
     cleanup_policies {
-        id     = "keep-minimum-versions"
+        id     = "keep-recent-versions"
         action = "KEEP"
         most_recent_versions {
-            keep_count            = 1
+            keep_count = 10
         }
     }
 
@@ -117,6 +117,30 @@ resource "github_actions_environment_secret" "tome-ms-language-secret-gale-broke
     environment = var.gcp_pid
     secret_name = "GALE_BROKER_URL"
     plaintext_value = format("https://gale-broker-%s/galebroker", var.cloud_run_endpoint_suffix)
+}
+resource "github_actions_environment_variable" "tome-ms-language-var-gke-project-id" {
+    repository = "tome-ms-language"
+    environment = var.gcp_pid
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "tome-ms-language-var-gke-cluster-name" {
+    repository = "tome-ms-language"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "tome-ms-language-var-gke-cluster-location" {
+    repository = "tome-ms-language"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "tome-ms-language-var-gke-namespace" {
+    repository = "tome-ms-language"
+    environment = var.gcp_pid
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
 }
 
 # ---------------------------------------------------------------
