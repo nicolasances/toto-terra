@@ -81,7 +81,7 @@ resource "google_secret_manager_secret_version" "topic_name_expenses_secret_vers
 }
 # --- TAGS TOPIC ---
 resource "google_secret_manager_secret" "topic_name_tags_secret" {
-  secret_id = "topics-name-tags"
+  secret_id = "topic-name-tags"
   replication {
     auto {}
   }
