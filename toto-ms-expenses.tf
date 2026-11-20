@@ -104,6 +104,30 @@ resource "github_actions_environment_secret" "totomsexpenses-secret-service-acco
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ms-expenses-service-account.email
 }
+resource "github_actions_environment_variable" "totomsexpenses-var-gke-project-id" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "totomsexpenses-var-gke-cluster-name" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "totomsexpenses-var-gke-cluster-location" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "totomsexpenses-var-gke-namespace" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
+}
 
 # ---------------------------------------------------------------
 # 4. Google Secret Manager (Secrets)
