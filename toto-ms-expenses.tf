@@ -28,6 +28,52 @@ resource "google_project_iam_member" "toto-ms-expenses-role-pubsub" {
 }
 
 # ---------------------------------------------------------------
+# 2. Artifact Repository
+# The repository already exists: it is imported, not recreated
+# ---------------------------------------------------------------
+import {
+    to = google_artifact_registry_repository.toto-ms-expenses-registry
+    id = format("projects/%s/locations/%s/repositories/toto-ms-expenses", var.gcp_pid, var.gcp_region)
+}
+resource "google_artifact_registry_repository" "toto-ms-expenses-registry" {
+    location = var.gcp_region
+    repository_id = "toto-ms-expenses"
+    format = "DOCKER"
+    description = "Toto MS Expenses Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
+
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-recent-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count = 10
+        }
+    }
+
+    cleanup_policies {
+        id     = "delete-old"
+        action = "DELETE"
+        condition {
+            tag_state  = "ANY"
+            older_than = "604800s"  # 7 days
+        }
+    }
+}
+
+# Allow the GKE nodes (toto-terra-gke, other GCP project) to pull images from this registry
+resource "google_artifact_registry_repository_iam_member" "toto-ms-expenses-gke-reader" {
+  project    = google_artifact_registry_repository.toto-ms-expenses-registry.project
+  location   = google_artifact_registry_repository.toto-ms-expenses-registry.location
+  repository = google_artifact_registry_repository.toto-ms-expenses-registry.name
+  role       = "roles/artifactregistry.reader"
+  member     = format("serviceAccount:gke-nodes@%s.iam.gserviceaccount.com", var.gke_project_id)
+}
+
+# ---------------------------------------------------------------
 # 3. Github environment secrets & variables
 # ---------------------------------------------------------------
 resource "github_repository_environment" "toto-ms-expenses-github-environment" {
@@ -57,6 +103,30 @@ resource "github_actions_environment_secret" "totomsexpenses-secret-service-acco
     environment = var.gcp_pid
     secret_name = "SERVICE_ACCOUNT"
     plaintext_value = google_service_account.toto-ms-expenses-service-account.email
+}
+resource "github_actions_environment_variable" "totomsexpenses-var-gke-project-id" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "totomsexpenses-var-gke-cluster-name" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "totomsexpenses-var-gke-cluster-location" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "totomsexpenses-var-gke-namespace" {
+    repository = "toto-ms-expenses"
+    environment = var.gcp_pid
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
 }
 
 # ---------------------------------------------------------------
@@ -166,4 +236,33 @@ resource "google_pubsub_subscription" "sub_tags_self" {
       minimum_backoff = "10s"
       maximum_backoff = "600s"
     }
+}
+
+# ---------------------------------------------------------------
+# 7. GKE Cluster authorization
+# Use this when hosting this microservice in a GKE cluster in another GCP project, to access the toto GCP projects (dev and prod)
+# ---------------------------------------------------------------
+locals {
+    toto_ms_expenses_gke_principal = format(
+        "principal://iam.googleapis.com/projects/%s/locations/global/workloadIdentityPools/%s.svc.id.goog/subject/ns/%s/sa/toto-ms-expenses",
+        var.gke_project_number,
+        var.gke_project_id,
+        var.toto_environment,
+    )
+}
+resource "google_project_iam_member" "toto-ms-expenses-gke-role-secretmanagedaccessor" {
+    project = var.gcp_pid
+    role = "roles/secretmanager.secretAccessor"
+    member = local.toto_ms_expenses_gke_principal
+}
+# Scoped to the backup bucket only (the Cloud Run service account has the project-wide storage.admin)
+resource "google_storage_bucket_iam_member" "toto-ms-expenses-gke-role-backup-bucket" {
+    bucket = google_storage_bucket.backup-bucket.name
+    role = "roles/storage.objectAdmin"
+    member = local.toto_ms_expenses_gke_principal
+}
+resource "google_project_iam_member" "toto-ms-expenses-gke-role-pubsub" {
+    project = var.gcp_pid
+    role = "roles/pubsub.publisher"
+    member = local.toto_ms_expenses_gke_principal
 }
