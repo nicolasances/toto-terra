@@ -62,10 +62,55 @@ resource "google_secret_manager_secret" "topic_name_tometopics_secret" {
     auto {}
   }
 }
-
 resource "google_secret_manager_secret_version" "topic_name_tometopics_secret_version" {
   secret = google_secret_manager_secret.topic_name_tometopics_secret.id
   secret_data = google_pubsub_topic.topic_tome_topics.name
+}
+
+# Expenses-related topics
+# --- EXPENSES TOPIC ---
+resource "google_secret_manager_secret" "topic_name_expenses_secret" {
+  secret_id = "expenses_topic_name"
+  replication {
+    auto {}
+  }
+}
+resource "google_secret_manager_secret_version" "topic_name_expenses_secret_version" {
+  secret = google_secret_manager_secret.topic_name_expenses_secret.id
+  secret_data = google_pubsub_topic.topic_expenses.name
+}
+# --- TAGS TOPIC ---
+resource "google_secret_manager_secret" "topic_name_tags_secret" {
+  secret_id = "tags_topic_name"
+  replication {
+    auto {}
+  }
+}
+resource "google_secret_manager_secret_version" "topic_name_tags_secret_version" {
+  secret = google_secret_manager_secret.topic_name_tags_secret.id
+  secret_data = google_pubsub_topic.topic_tags.name
+}
+# --- GAMES TOPIC ---
+resource "google_secret_manager_secret" "topic_name_games_secret" {
+  secret_id = "games_topic_name"
+  replication {
+    auto {}
+  }
+}
+resource "google_secret_manager_secret_version" "topic_name_games_secret_version" {
+  secret = google_secret_manager_secret.topic_name_games_secret.id
+  secret_data = google_pubsub_topic.topic_games.name
+}
+# ---- KUDS TOPIC ---
+resource "google_secret_manager_secret" "topic_name_kuds_secret" {
+  secret_id = "kuds_topic_name"
+  replication {
+    auto {}
+  }
+}
+resource "google_secret_manager_secret_version" "topic_name_kuds_secret_version" {
+  secret = google_secret_manager_secret.topic_name_kuds_secret.id
+  secret_data = google_pubsub_topic.topic_kuds.name
 }
 
 # Supermarket topic secret
