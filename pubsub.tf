@@ -70,7 +70,7 @@ resource "google_secret_manager_secret_version" "topic_name_tometopics_secret_ve
 # Expenses-related topics
 # --- EXPENSES TOPIC ---
 resource "google_secret_manager_secret" "topic_name_expenses_secret" {
-  secret_id = "expenses_topic_name"
+  secret_id = "topic-name-expenses"
   replication {
     auto {}
   }
@@ -81,7 +81,7 @@ resource "google_secret_manager_secret_version" "topic_name_expenses_secret_vers
 }
 # --- TAGS TOPIC ---
 resource "google_secret_manager_secret" "topic_name_tags_secret" {
-  secret_id = "tags_topic_name"
+  secret_id = "topics-name-tags"
   replication {
     auto {}
   }
@@ -92,7 +92,7 @@ resource "google_secret_manager_secret_version" "topic_name_tags_secret_version"
 }
 # --- GAMES TOPIC ---
 resource "google_secret_manager_secret" "topic_name_games_secret" {
-  secret_id = "games_topic_name"
+  secret_id = "topic-name-games"
   replication {
     auto {}
   }
@@ -103,7 +103,7 @@ resource "google_secret_manager_secret_version" "topic_name_games_secret_version
 }
 # ---- KUDS TOPIC ---
 resource "google_secret_manager_secret" "topic_name_kuds_secret" {
-  secret_id = "kuds_topic_name"
+  secret_id = "topic-name-kuds"
   replication {
     auto {}
   }
