@@ -167,3 +167,32 @@ resource "google_pubsub_subscription" "sub_tags_self" {
       maximum_backoff = "600s"
     }
 }
+
+# ---------------------------------------------------------------
+# 7. GKE Cluster authorization
+# Use this when hosting this microservice in a GKE cluster in another GCP project, to access the toto GCP projects (dev and prod)
+# ---------------------------------------------------------------
+locals {
+    toto_ms_expenses_gke_principal = format(
+        "principal://iam.googleapis.com/projects/%s/locations/global/workloadIdentityPools/%s.svc.id.goog/subject/ns/%s/sa/toto-ms-expenses",
+        var.gke_project_number,
+        var.gke_project_id,
+        var.toto_environment,
+    )
+}
+resource "google_project_iam_member" "toto-ms-expenses-gke-role-secretmanagedaccessor" {
+    project = var.gcp_pid
+    role = "roles/secretmanager.secretAccessor"
+    member = local.toto_ms_expenses_gke_principal
+}
+# Scoped to the backup bucket only (the Cloud Run service account has the project-wide storage.admin)
+resource "google_storage_bucket_iam_member" "toto-ms-expenses-gke-role-backup-bucket" {
+    bucket = google_storage_bucket.backup-bucket.name
+    role = "roles/storage.objectAdmin"
+    member = local.toto_ms_expenses_gke_principal
+}
+resource "google_project_iam_member" "toto-ms-expenses-gke-role-pubsub" {
+    project = var.gcp_pid
+    role = "roles/pubsub.publisher"
+    member = local.toto_ms_expenses_gke_principal
+}
