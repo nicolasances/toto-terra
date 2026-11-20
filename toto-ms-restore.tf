@@ -66,7 +66,7 @@ resource "github_actions_environment_secret" "secret_restore_expensesv2_api_endp
     repository = "toto-ms-restore"
     environment = var.gcp_pid
     secret_name = "EXPENSESV2_API_ENDPOINT"
-    plaintext_value  = format("https://toto-ms-expenses-%s", var.cloud_run_endpoint_suffix)
+    plaintext_value  = format("https://toto-ms-expenses-%s/expenses", var.cloud_run_endpoint_suffix)
 }
 resource "github_actions_environment_secret" "secret_restore_games_api_endpoint" {
     repository = "toto-ms-restore"
