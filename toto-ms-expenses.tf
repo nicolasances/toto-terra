@@ -28,6 +28,52 @@ resource "google_project_iam_member" "toto-ms-expenses-role-pubsub" {
 }
 
 # ---------------------------------------------------------------
+# 2. Artifact Repository
+# The repository already exists: it is imported, not recreated
+# ---------------------------------------------------------------
+import {
+    to = google_artifact_registry_repository.toto-ms-expenses-registry
+    id = format("projects/%s/locations/%s/repositories/toto-ms-expenses", var.gcp_pid, var.gcp_region)
+}
+resource "google_artifact_registry_repository" "toto-ms-expenses-registry" {
+    location = var.gcp_region
+    repository_id = "toto-ms-expenses"
+    format = "DOCKER"
+    description = "Toto MS Expenses Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
+
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-recent-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count = 10
+        }
+    }
+
+    cleanup_policies {
+        id     = "delete-old"
+        action = "DELETE"
+        condition {
+            tag_state  = "ANY"
+            older_than = "604800s"  # 7 days
+        }
+    }
+}
+
+# Allow the GKE nodes (toto-terra-gke, other GCP project) to pull images from this registry
+resource "google_artifact_registry_repository_iam_member" "toto-ms-expenses-gke-reader" {
+  project    = google_artifact_registry_repository.toto-ms-expenses-registry.project
+  location   = google_artifact_registry_repository.toto-ms-expenses-registry.location
+  repository = google_artifact_registry_repository.toto-ms-expenses-registry.name
+  role       = "roles/artifactregistry.reader"
+  member     = format("serviceAccount:gke-nodes@%s.iam.gserviceaccount.com", var.gke_project_id)
+}
+
+# ---------------------------------------------------------------
 # 3. Github environment secrets & variables
 # ---------------------------------------------------------------
 resource "github_repository_environment" "toto-ms-expenses-github-environment" {
