@@ -34,10 +34,10 @@ resource "google_cloud_scheduler_job" "job_expenses_backup" {
 
   http_target {
     http_method = "POST"
-    uri         = format("https://toto-ms-expenses-%s/backup", var.cloud_run_endpoint_suffix)
+    uri         = format("https://toto-ms-expenses-%s/expenses/backup", var.cloud_run_endpoint_suffix)
     headers = {
       "auth-provider" = "google"
-      "x-client-id" = format("https://toto-ms-expenses-%s/backup", var.cloud_run_endpoint_suffix)
+      "x-client-id" = format("https://toto-ms-expenses-%s/expenses/backup", var.cloud_run_endpoint_suffix)
       "x-correlation-id" = "cloud-sched"
     }
     

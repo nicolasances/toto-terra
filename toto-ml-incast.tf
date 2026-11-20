@@ -55,7 +55,7 @@ resource "github_actions_environment_secret" "toto-ml-incast-secret-expenses-end
     repository = "toto-ml-incast"
     environment = var.gcp_pid
     secret_name = "EXPENSES_API_ENDPOINT"
-    plaintext_value  = format("https://toto-ms-expenses-%s", var.cloud_run_endpoint_suffix)
+    plaintext_value  = format("https://toto-ms-expenses-%s/expenses", var.cloud_run_endpoint_suffix)
 }
 resource "github_actions_environment_secret" "toto_ml_incast_models_bucket" {
     repository = "toto-ml-incast"
