@@ -79,3 +79,27 @@ resource "github_actions_environment_secret" "totoreactjsexpenses-secret-authend
     secret_name = "AUTH_API_ENDPOINT"
     plaintext_value = var.toto_environment == "dev" ? format("https://api.%s.dr.nimat.fr/auth", var.toto_environment) : "https://api.dr.nimat.fr/auth"
 }
+resource "github_actions_environment_variable" "totoreactjsexpenses-var-gke-project-id" {
+    repository = "toto-reactjs-expenses"
+    environment = var.toto_environment
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "totoreactjsexpenses-var-gke-cluster-name" {
+    repository = "toto-reactjs-expenses"
+    environment = var.toto_environment
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "totoreactjsexpenses-var-gke-cluster-location" {
+    repository = "toto-reactjs-expenses"
+    environment = var.toto_environment
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "totoreactjsexpenses-var-gke-namespace" {
+    repository = "toto-reactjs-expenses"
+    environment = var.toto_environment
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
+}
