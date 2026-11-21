@@ -1,4 +1,52 @@
 # ---------------------------------------------------------------
+# 2. Artifact Repository
+# The repository already exists: it is imported, not recreated
+# ---------------------------------------------------------------
+import {
+    to = google_artifact_registry_repository.toto-reactjs-expenses-registry
+    id = format("projects/%s/locations/%s/repositories/toto-reactjs-expenses", var.gcp_pid, var.gcp_region)
+}
+resource "google_artifact_registry_repository" "toto-reactjs-expenses-registry" {
+    location = var.gcp_region
+    repository_id = "toto-reactjs-expenses"
+    format = "DOCKER"
+    description = "Toto Expenses Web App Artifact Registry"
+    labels = {
+        "created_by" = "terraform"
+        "project" = var.gcp_pid
+    }
+
+    # KEEP takes precedence over DELETE: the 10 most recent versions are never deleted,
+    # so the image running on GKE (deployed by CI) and a few rollback targets always stay available.
+    cleanup_policy_dry_run = false
+    cleanup_policies {
+        id     = "keep-recent-versions"
+        action = "KEEP"
+        most_recent_versions {
+            keep_count = 10
+        }
+    }
+
+    cleanup_policies {
+        id     = "delete-old"
+        action = "DELETE"
+        condition {
+            tag_state  = "ANY"
+            older_than = "604800s"  # 7 days
+        }
+    }
+}
+
+# Allow the GKE nodes (toto-terra-gke, other GCP project) to pull images from this registry
+resource "google_artifact_registry_repository_iam_member" "toto-reactjs-expenses-gke-reader" {
+  project    = google_artifact_registry_repository.toto-reactjs-expenses-registry.project
+  location   = google_artifact_registry_repository.toto-reactjs-expenses-registry.location
+  repository = google_artifact_registry_repository.toto-reactjs-expenses-registry.name
+  role       = "roles/artifactregistry.reader"
+  member     = format("serviceAccount:gke-nodes@%s.iam.gserviceaccount.com", var.gke_project_id)
+}
+
+# ---------------------------------------------------------------
 # 3. Github environment secrets & variables
 # ---------------------------------------------------------------
 resource "github_actions_environment_secret" "web_expenses_github_secret_expenses_endpoint" {
@@ -30,4 +78,28 @@ resource "github_actions_environment_secret" "totoreactjsexpenses-secret-authend
     environment = var.toto_environment
     secret_name = "AUTH_API_ENDPOINT"
     plaintext_value = var.toto_environment == "dev" ? format("https://api.%s.dr.nimat.fr/auth", var.toto_environment) : "https://api.dr.nimat.fr/auth"
+}
+resource "github_actions_environment_variable" "totoreactjsexpenses-var-gke-project-id" {
+    repository = "toto-reactjs-expenses"
+    environment = var.toto_environment
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "totoreactjsexpenses-var-gke-cluster-name" {
+    repository = "toto-reactjs-expenses"
+    environment = var.toto_environment
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "totoreactjsexpenses-var-gke-cluster-location" {
+    repository = "toto-reactjs-expenses"
+    environment = var.toto_environment
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
+resource "github_actions_environment_variable" "totoreactjsexpenses-var-gke-namespace" {
+    repository = "toto-reactjs-expenses"
+    environment = var.toto_environment
+    variable_name = "GKE_NAMESPACE"
+    value = var.toto_environment
 }
