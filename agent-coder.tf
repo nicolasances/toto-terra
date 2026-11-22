@@ -99,3 +99,21 @@ resource "github_actions_environment_secret" "agent_coder-secret-cicdsakey" {
     secret_name = "CICD_SERVICE_ACCOUNT"
     plaintext_value = jsonencode(jsondecode(base64decode(google_service_account_key.toto-cicd-sa-key.private_key)))
 }
+resource "github_actions_environment_variable" "agent_coder-var-gke-project-id" {
+    repository = "agent-coder"
+    environment = var.gcp_pid
+    variable_name = "GKE_PROJECT_ID"
+    value = var.gke_project_id
+}
+resource "github_actions_environment_variable" "agent_coder-var-gke-cluster-name" {
+    repository = "agent-coder"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_NAME"
+    value = var.gke_cluster_name
+}
+resource "github_actions_environment_variable" "agent_coder-var-gke-cluster-location" {
+    repository = "agent-coder"
+    environment = var.gcp_pid
+    variable_name = "GKE_CLUSTER_LOCATION"
+    value = var.gke_cluster_location
+}
