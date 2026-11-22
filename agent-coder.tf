@@ -77,6 +77,15 @@ resource "google_artifact_registry_repository" "agent_coder_registry" {
     }
 }
 
+# Allow the GKE nodes (toto-terra-gke, other GCP project) to pull images from this registry
+resource "google_artifact_registry_repository_iam_member" "agent_coder_gke_reader" {
+  project    = google_artifact_registry_repository.agent_coder_registry.project
+  location   = google_artifact_registry_repository.agent_coder_registry.location
+  repository = google_artifact_registry_repository.agent_coder_registry.name
+  role       = "roles/artifactregistry.reader"
+  member     = format("serviceAccount:gke-nodes@%s.iam.gserviceaccount.com", var.gke_project_id)
+}
+
 # ---------------------------------------------------------------
 # 3. Github environment secrets & variables
 # ---------------------------------------------------------------
